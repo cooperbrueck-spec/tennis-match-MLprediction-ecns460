@@ -1,0 +1,131 @@
+tourney_name,first_year,last_year,n_years,surfaces,n_surfaces
+ATP Rio de Janeiro,2020,2020,1,Clay,1
+Acapulco,2010,2024,15,"Clay, Hard",2
+Adelaide,2020,2024,2,Hard,1
+Adelaide 1,2022,2023,2,Hard,1
+Adelaide 2,2022,2023,2,Hard,1
+Almaty,2024,2024,1,Hard,1
+Antalya,2017,2021,4,"Grass, Hard",2
+Antwerp,2016,2024,9,Hard,1
+Astana,2022,2023,2,Hard,1
+Atlanta,2010,2024,14,Hard,1
+Atp Cup,2020,2022,3,Hard,1
+Auckland,2010,2024,13,Hard,1
+Australian Open,2010,2024,15,Hard,1
+Bangkok,2010,2013,4,Hard,1
+Banja Luka,2023,2023,1,Clay,1
+Barcelona,2010,2024,14,Clay,1
+Basel,2010,2024,13,Hard,1
+Bastad,2010,2024,14,Clay,1
+Beijing,2010,2024,12,Hard,1
+Belgrade,2010,2024,6,"Clay, Hard",2
+Belgrade 2,2021,2021,1,Clay,1
+Bogota,2013,2015,3,Hard,1
+Brisbane,2010,2024,11,Hard,1
+Bucharest,2010,2024,8,Clay,1
+Budapest,2017,2019,3,Clay,1
+Buenos Aires,2010,2024,15,Clay,1
+Cagliari,2021,2021,1,Clay,1
+Canada Masters,2010,2024,14,Hard,1
+Casablanca,2010,2015,6,Clay,1
+Chengdu,2016,2024,6,Hard,1
+Chennai,2010,2017,8,Hard,1
+Cincinnati Masters,2010,2024,15,Hard,1
+Cologne 1,2020,2020,1,Hard,1
+Cologne 2,2020,2020,1,Hard,1
+Cordoba,2019,2024,6,Clay,1
+Costa Do Sauipe,2010,2011,2,Clay,1
+Dallas,2022,2024,3,Hard,1
+Delray Beach,2010,2024,15,Hard,1
+Doha,2010,2024,15,Hard,1
+Dubai,2010,2024,15,Hard,1
+Dusseldorf,2010,2014,5,Clay,1
+Eastbourne,2010,2024,12,Grass,1
+Estoril,2010,2024,14,Clay,1
+Florence,2022,2022,1,Hard,1
+Geneva,2015,2024,9,Clay,1
+Gijon,2022,2022,1,Hard,1
+Great Ocean Road Open,2021,2021,1,Hard,1
+Gstaad,2010,2024,14,Clay,1
+Halle,2010,2024,14,Grass,1
+Hamburg,2010,2024,15,Clay,1
+Hangzhou,2024,2024,1,Hard,1
+Hong Kong,2024,2024,1,Hard,1
+Houston,2010,2024,13,Clay,1
+Indian Wells Masters,2010,2024,14,Hard,1
+Istanbul,2015,2018,4,Clay,1
+Johannesburg,2010,2011,2,Hard,1
+Kitzbuhel,2011,2024,14,Clay,1
+Kuala Lumpur,2010,2015,6,Hard,1
+Laver Cup,2017,2024,6,Hard,1
+London Olympics,2012,2012,1,Grass,1
+Los Angeles,2010,2012,3,Hard,1
+Los Cabos,2016,2024,8,Hard,1
+Lyon,2017,2024,7,Clay,1
+Madrid Masters,2010,2024,14,Clay,1
+Mallorca,2021,2024,4,Grass,1
+Marbella,2021,2021,1,Clay,1
+Marrakech,2016,2024,7,Clay,1
+Marseille,2010,2024,15,Hard,1
+Melbourne,2022,2022,1,Hard,1
+Memphis,2010,2017,8,Hard,1
+Metz,2010,2024,14,Hard,1
+Miami Masters,2010,2024,14,Hard,1
+Monte Carlo Masters,2010,2024,14,Clay,1
+Montpellier,2010,2024,14,Hard,1
+Moscow,2010,2021,11,Hard,1
+Munich,2010,2024,14,Clay,1
+Murray River Open,2021,2021,1,Hard,1
+Naples,2022,2022,1,Hard,1
+New Haven,2010,2010,1,Hard,1
+New York,2018,2020,3,Hard,1
+Newport,2010,2024,14,Grass,1
+Next Gen Finals,2024,2024,1,Hard,1
+NextGen Finals,2017,2023,6,Hard,1
+Nice,2010,2016,7,Clay,1
+Nottingham,2015,2016,2,Grass,1
+Nur-Sultan,2020,2021,2,Hard,1
+Paris Masters,2010,2024,15,Hard,1
+Paris Olympics,2024,2024,1,Clay,1
+Parma,2021,2021,1,Clay,1
+Pune,2018,2023,5,Hard,1
+Queen's Club,2010,2024,14,Grass,1
+Quito,2015,2018,4,Clay,1
+Rio De Janeiro,2023,2024,2,Clay,1
+Rio Olympics,2016,2016,1,Hard,1
+Rio de Janeiro,2014,2022,7,Clay,1
+Roland Garros,2010,2024,15,Clay,1
+Rome Masters,2010,2024,15,Clay,1
+Rotterdam,2010,2024,15,Hard,1
+San Diego,2021,2022,2,Hard,1
+San Jose,2010,2013,4,Hard,1
+Santiago,2010,2024,9,Clay,1
+Sao Paulo,2012,2019,8,Clay,1
+Sardinia,2020,2020,1,Clay,1
+Seoul,2022,2022,1,Hard,1
+Shanghai Masters,2010,2024,12,Hard,1
+Shenzhen,2014,2018,5,Hard,1
+Singapore,2021,2021,1,Hard,1
+Sofia,2016,2023,8,Hard,1
+St Petersburg,2020,2020,1,Hard,1
+St. Petersburg,2010,2021,10,Hard,1
+Stockholm,2010,2024,14,Hard,1
+Stuttgart,2010,2024,14,"Clay, Grass",2
+Sydney,2010,2022,11,Hard,1
+Tel Aviv,2022,2022,1,Hard,1
+Tokyo,2010,2024,13,Hard,1
+Tokyo Olympics,2021,2021,1,Hard,1
+Tour Finals,2010,2024,15,Hard,1
+US Open,2010,2019,10,Hard,1
+Umag,2010,2024,14,Clay,1
+United Cup,2023,2024,2,Hard,1
+Us Open,2020,2024,5,Hard,1
+Valencia,2010,2015,6,Hard,1
+Vienna,2010,2024,15,Hard,1
+Vina del Mar,2014,2014,1,Clay,1
+Washington,2010,2024,14,Hard,1
+Wimbledon,2010,2024,14,Grass,1
+Winston-Salem,2011,2024,13,Hard,1
+Zagreb,2010,2015,6,Hard,1
+Zhuhai,2019,2023,2,Hard,1
+s Hertogenbosch,2010,2024,13,Grass,1
