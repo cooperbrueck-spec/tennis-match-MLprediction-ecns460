@@ -1,0 +1,131 @@
+tourney_name,city,country,country_name,query,latitude,longitude
+ATP Rio de Janeiro,Rio de Janeiro,BRA,Brazil,"Rio de Janeiro, Brazil",-22.9110137,-43.2093727
+Acapulco,Acapulco,MEX,Mexico,"Acapulco, Mexico",16.8680495,-99.8940182
+Adelaide,Adelaide,AUS,Australia,"Adelaide, Australia",-34.9281805,138.5999312
+Adelaide 1,Adelaide,AUS,Australia,"Adelaide, Australia",-34.9281805,138.5999312
+Adelaide 2,Adelaide,AUS,Australia,"Adelaide, Australia",-34.9281805,138.5999312
+Almaty,Almaty,KAZ,Kazakhstan,"Almaty, Kazakhstan",43.2363924,76.9457275
+Antalya,Antalya,TUR,Turkey,"Antalya, Turkey",36.8865728,30.7030242
+Antwerp,Antwerp,BEL,Belgium,"Antwerp, Belgium",51.2211097,4.3997081
+Astana,Astana,KAZ,Kazakhstan,"Astana, Kazakhstan",51.1282205,71.4306682
+Atlanta,Atlanta,USA,United States,"Atlanta, United States",33.7544657,-84.3898151
+Atp Cup,Sydney,AUS,Australia,"Sydney, Australia",-33.8698439,151.2082848
+Auckland,Auckland,NZL,New Zealand,"Auckland, New Zealand",-36.852095,174.7631803
+Australian Open,Melbourne,AUS,Australia,"Melbourne, Australia",-37.8142454,144.9631732
+Bangkok,Bangkok,THA,Thailand,"Bangkok, Thailand",13.7524938,100.4935089
+Banja Luka,Banja Luka,BIH,Bosnia & Herzegovina,"Banja Luka, Bosnia & Herzegovina",44.7720845,17.1917651
+Barcelona,Barcelona,ESP,Spain,"Barcelona, Spain",41.3825802,2.177073
+Basel,Basel,CHE,Switzerland,"Basel, Switzerland",47.5581077,7.5878261
+Bastad,Bastad,SWE,Sweden,"Bastad, Sweden",56.4268963,12.8608789
+Beijing,Beijing,CHN,China,"Beijing, China",39.9057136,116.3912972
+Belgrade,Belgrade,SRB,Serbia,"Belgrade, Serbia",44.8153318,20.4456588
+Belgrade 2,Belgrade,SRB,Serbia,"Belgrade, Serbia",44.8153318,20.4456588
+Bogota,Bogota,COL,Colombia,"Bogota, Colombia",4.6533817,-74.0836331
+Brisbane,Brisbane,AUS,Australia,"Brisbane, Australia",-27.365991,152.948963
+Bucharest,Bucharest,ROU,Romania,"Bucharest, Romania",44.4361414,26.102684
+Budapest,Budapest,HUN,Hungary,"Budapest, Hungary",47.4813896,19.1457723
+Buenos Aires,Buenos Aires,ARG,Argentina,"Buenos Aires, Argentina",-34.6095579,-58.3887904
+Cagliari,Cagliari,ITA,Italy,"Cagliari, Italy",39.2171994,9.113311
+Canada Masters,Toronto,CAN,Canada,"Toronto, Canada",43.6534817,-79.3839347
+Casablanca,Casablanca,MAR,Morocco,"Casablanca, Morocco",33.5945144,-7.6200284
+Chengdu,Chengdu,CHN,China,"Chengdu, China",30.659867,104.063315
+Chennai,Chennai,IND,India,"Chennai, India",13.0836939,80.270186
+Cincinnati Masters,Cincinnati,USA,United States,"Cincinnati, United States",39.1014537,-84.5124602
+Cologne 1,Cologne,DEU,Germany,"Cologne, Germany",50.938361,6.959974
+Cologne 2,Cologne,DEU,Germany,"Cologne, Germany",50.938361,6.959974
+Cordoba,Cordoba,ARG,Argentina,"Cordoba, Argentina",-31.4166867,-64.1834193
+Costa Do Sauipe,Costa do Sauipe,BRA,Brazil,"Costa do Sauipe, Brazil",-12.4391251,-37.9233062
+Dallas,Dallas,USA,United States,"Dallas, United States",32.7762719,-96.7968559
+Delray Beach,Delray Beach,USA,United States,"Delray Beach, United States",26.4614625,-80.0728201
+Doha,Doha,QAT,Qatar,"Doha, Qatar",25.3108807,51.5081812
+Dubai,Dubai,ARE,United Arab Emirates,"Dubai, United Arab Emirates",25.0742823,55.1885387
+Dusseldorf,Dusseldorf,DEU,Germany,"Dusseldorf, Germany",51.2254018,6.7763137
+Eastbourne,Eastbourne,GBR,United Kingdom,"Eastbourne, United Kingdom",50.7664372,0.2781546
+Estoril,Estoril,PRT,Portugal,"Estoril, Portugal",38.7095707,-9.3901368
+Florence,Florence,ITA,Italy,"Florence, Italy",43.7697955,11.2556404
+Geneva,Geneva,CHE,Switzerland,"Geneva, Switzerland",46.2017559,6.1466014
+Gijon,Gijon,ESP,Spain,"Gijon, Spain",43.5449422,-5.66275
+Great Ocean Road Open,Melbourne,AUS,Australia,"Melbourne, Australia",-37.8142454,144.9631732
+Gstaad,Gstaad,CHE,Switzerland,"Gstaad, Switzerland",46.4721619,7.288748
+Halle,Halle,DEU,Germany,"Halle, Germany",51.4824354,11.9712985
+Hamburg,Hamburg,DEU,Germany,"Hamburg, Germany",53.5501721,10.0013165
+Hangzhou,Hangzhou,CHN,China,"Hangzhou, China",30.2489634,120.2052342
+Hong Kong,Hong Kong,HKG,Hong Kong SAR China,"Hong Kong, Hong Kong SAR China",22.2792968,114.1628907
+Houston,Houston,USA,United States,"Houston, United States",29.7589382,-95.3676974
+Indian Wells Masters,Indian Wells,USA,United States,"Indian Wells, United States",33.7217965,-116.338303
+Istanbul,Istanbul,TUR,Turkey,"Istanbul, Turkey",41.006381,28.9758715
+Johannesburg,Johannesburg,ZAF,South Africa,"Johannesburg, South Africa",-26.205,28.049722
+Kitzbuhel,Kitzbuhel,AUT,Austria,"Kitzbuhel, Austria",47.4463585,12.3911473
+Kuala Lumpur,Kuala Lumpur,MYS,Malaysia,"Kuala Lumpur, Malaysia",3.1516964,101.6942371
+Laver Cup,Multiple,Multiple,NA,"Multiple, NA",32.7979615,-117.1509655
+London Olympics,London,GBR,United Kingdom,"London, United Kingdom",51.5074456,-0.1277653
+Los Angeles,Los Angeles,USA,United States,"Los Angeles, United States",34.0536909,-118.242766
+Los Cabos,Los Cabos,MEX,Mexico,"Los Cabos, Mexico",21.166121,-100.936442
+Lyon,Lyon,FRA,France,"Lyon, France",45.7578137,4.8320114
+Madrid Masters,Madrid,ESP,Spain,"Madrid, Spain",40.416782,-3.703507
+Mallorca,Mallorca,ESP,Spain,"Mallorca, Spain",39.613432,2.8829185
+Marbella,Marbella,ESP,Spain,"Marbella, Spain",36.508976,-4.88562
+Marrakech,Marrakech,MAR,Morocco,"Marrakech, Morocco",31.6258257,-7.9891608
+Marseille,Marseille,FRA,France,"Marseille, France",43.2961743,5.3699525
+Melbourne,Melbourne,AUS,Australia,"Melbourne, Australia",-37.8142454,144.9631732
+Memphis,Memphis,USA,United States,"Memphis, United States",35.1460249,-90.0517638
+Metz,Metz,FRA,France,"Metz, France",49.1196964,6.1763552
+Miami Masters,Miami,USA,United States,"Miami, United States",25.7741566,-80.1935973
+Monte Carlo Masters,Monte Carlo,MCO,Monaco,"Monte Carlo, Monaco",43.7402961,7.426559
+Montpellier,Montpellier,FRA,France,"Montpellier, France",43.6112422,3.8767337
+Moscow,Moscow,RUS,Russia,"Moscow, Russia",55.625578,37.6063916
+Munich,Munich,DEU,Germany,"Munich, Germany",48.1371079,11.5753822
+Murray River Open,Melbourne,AUS,Australia,"Melbourne, Australia",-37.8142454,144.9631732
+Naples,Naples,ITA,Italy,"Naples, Italy",40.8358846,14.2487679
+New Haven,New Haven,USA,United States,"New Haven, United States",41.3082138,-72.9250518
+New York,New York,USA,United States,"New York, United States",40.7127281,-74.0060152
+Newport,Newport,USA,United States,"Newport, United States",41.4899827,-71.3137707
+Next Gen Finals,Milan,ITA,Italy,"Milan, Italy",45.4641943,9.1896346
+NextGen Finals,Milan,ITA,Italy,"Milan, Italy",45.4641943,9.1896346
+Nice,Nice,FRA,France,"Nice, France",43.7009358,7.2683912
+Nottingham,Nottingham,GBR,United Kingdom,"Nottingham, United Kingdom",52.9534193,-1.1496461
+Nur-Sultan,Astana,KAZ,Kazakhstan,"Astana, Kazakhstan",51.1282205,71.4306682
+Paris Masters,Paris,FRA,France,"Paris, France",48.8588897,2.320041
+Paris Olympics,Paris,FRA,France,"Paris, France",48.8588897,2.320041
+Parma,Parma,ITA,Italy,"Parma, Italy",44.6952006,10.0979869
+Pune,Pune,IND,India,"Pune, India",18.5213738,73.8545071
+Queen's Club,London,GBR,United Kingdom,"London, United Kingdom",51.5074456,-0.1277653
+Quito,Quito,ECU,Ecuador,"Quito, Ecuador",-0.2201641,-78.5123274
+Rio De Janeiro,Rio de Janeiro,BRA,Brazil,"Rio de Janeiro, Brazil",-22.9110137,-43.2093727
+Rio Olympics,Rio de Janeiro,BRA,Brazil,"Rio de Janeiro, Brazil",-22.9110137,-43.2093727
+Rio de Janeiro,Rio de Janeiro,BRA,Brazil,"Rio de Janeiro, Brazil",-22.9110137,-43.2093727
+Roland Garros,Paris,FRA,France,"Paris, France",48.8588897,2.320041
+Rome Masters,Rome,ITA,Italy,"Rome, Italy",41.8933203,12.4829321
+Rotterdam,Rotterdam,NLD,Netherlands,"Rotterdam, Netherlands",51.9244424,4.47775
+San Diego,San Diego,USA,United States,"San Diego, United States",32.7174202,-117.162772
+San Jose,San Jose,USA,United States,"San Jose, United States",37.3361663,-121.890591
+Santiago,Santiago,CHL,Chile,"Santiago, Chile",-33.4376995,-70.6510671
+Sao Paulo,Sao Paulo,BRA,Brazil,"Sao Paulo, Brazil",-23.5506507,-46.6333824
+Sardinia,Cagliari,ITA,Italy,"Cagliari, Italy",39.2171994,9.113311
+Seoul,Seoul,KOR,South Korea,"Seoul, South Korea",37.5666791,126.9782914
+Shanghai Masters,Shanghai,CHN,China,"Shanghai, China",31.2312707,121.4700152
+Shenzhen,Shenzhen,CHN,China,"Shenzhen, China",22.5445741,114.0545429
+Singapore,Singapore,SGP,Singapore,"Singapore, Singapore",1.357107,103.8194992
+Sofia,Sofia,BGR,Bulgaria,"Sofia, Bulgaria",42.6977028,23.3217359
+St Petersburg,St Petersburg,RUS,Russia,"St Petersburg, Russia",59.938732,30.316229
+St. Petersburg,St Petersburg,RUS,Russia,"St Petersburg, Russia",59.938732,30.316229
+Stockholm,Stockholm,SWE,Sweden,"Stockholm, Sweden",59.3251172,18.0710935
+Stuttgart,Stuttgart,DEU,Germany,"Stuttgart, Germany",48.7784485,9.1800132
+Sydney,Sydney,AUS,Australia,"Sydney, Australia",-33.8698439,151.2082848
+Tel Aviv,Tel Aviv,ISR,Israel,"Tel Aviv, Israel",32.0852997,34.7818064
+Tokyo,Tokyo,JPN,Japan,"Tokyo, Japan",35.6768601,139.7638947
+Tokyo Olympics,Tokyo,JPN,Japan,"Tokyo, Japan",35.6768601,139.7638947
+Tour Finals,London,GBR,United Kingdom,"London, United Kingdom",51.5074456,-0.1277653
+US Open,New York,USA,United States,"New York, United States",40.7127281,-74.0060152
+Umag,Umag,HRV,Croatia,"Umag, Croatia",45.4323587,13.5224098
+United Cup,Sydney,AUS,Australia,"Sydney, Australia",-33.8698439,151.2082848
+Us Open,New York,USA,United States,"New York, United States",40.7127281,-74.0060152
+Valencia,Valencia,ESP,Spain,"Valencia, Spain",39.4697065,-0.3763353
+Vienna,Vienna,AUT,Austria,"Vienna, Austria",48.2083537,16.3725042
+Vina del Mar,Vina del Mar,CHL,Chile,"Vina del Mar, Chile",-33.0244535,-71.5517636
+Washington,Washington,USA,United States,"Washington, United States",38.8950982,-77.0363849
+Wimbledon,London,GBR,United Kingdom,"London, United Kingdom",51.5074456,-0.1277653
+Winston-Salem,Winston-Salem,USA,United States,"Winston-Salem, United States",36.0998131,-80.2440518
+Zagreb,Zagreb,HRV,Croatia,"Zagreb, Croatia",45.8130967,15.9772795
+Zhuhai,Zhuhai,CHN,China,"Zhuhai, China",22.273734,113.5721327
+s Hertogenbosch,s-Hertogenbosch,NLD,Netherlands,"s-Hertogenbosch, Netherlands",51.6889387,5.303116
