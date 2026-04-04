@@ -1,3 +1,10 @@
+# This script pulls daily NOAA GHCND weather data for ATP tournament stations
+# and merges the resulting daily weather variables onto the 2010+ ATP match dataset.
+# Weather variables successfully pulled include daily maximum temperature (TMAX),
+# daily minimum temperature (TMIN), and daily precipitation (PRCP).
+# Average daily wind speed (AWND) was requested but was not returned by the selected
+# NOAA stations, so it is not included in the final merged dataset.
+
 library(readr)
 library(dplyr)
 library(tidyr)
@@ -56,26 +63,11 @@ station_year_requests <- station_dates |>
 # STEP 3: NOAA HELPER
 # =========================
 
-get_noaa_daily_data <- function(station_id, year, datatype_id, token, base_url) {
+get_noaa_daily_data <- function(station_id, year, datatype_id, token, base_url, max_tries = 5) {
   start_date <- paste0(year, "-01-01")
   end_date <- paste0(year, "-12-31")
   
-  res <- GET(
-    paste0(base_url, "data"),
-    add_headers(token = token),
-    query = list(
-      datasetid = "GHCND",
-      stationid = station_id,
-      startdate = start_date,
-      enddate = end_date,
-      datatypeid = datatype_id,
-      units = "metric",
-      limit = 1000
-    )
-  )
-  
-  if (status_code(res) == 429) {
-    Sys.sleep(1)
+  for (attempt in seq_len(max_tries)) {
     res <- GET(
       paste0(base_url, "data"),
       add_headers(token = token),
@@ -89,39 +81,56 @@ get_noaa_daily_data <- function(station_id, year, datatype_id, token, base_url) 
         limit = 1000
       )
     )
-  }
-  
-  if (status_code(res) != 200) {
-    warning(
-      paste(
-        "Weather request failed:",
-        station_id, year, datatype_id,
-        "HTTP status", status_code(res)
+    
+    if (status_code(res) == 200) {
+      parsed <- fromJSON(content(res, "text", encoding = "UTF-8"), flatten = TRUE)
+      
+      if (is.null(parsed$results)) {
+        return(tibble())
+      }
+      
+      return(
+        as_tibble(parsed$results) |>
+          transmute(
+            station_id = station,
+            date = as.Date(substr(date, 1, 10)),
+            datatype = datatype,
+            value = value
+          )
       )
-    )
-    return(tibble())
+    }
+    
+    if (status_code(res) %in% c(429, 503)) {
+      Sys.sleep(attempt * 2)
+    } else {
+      warning(
+        paste(
+          "Weather request failed:",
+          station_id, year, datatype_id,
+          "HTTP status", status_code(res)
+        )
+      )
+      return(tibble())
+    }
   }
   
-  parsed <- fromJSON(content(res, "text", encoding = "UTF-8"), flatten = TRUE)
-  
-  if (is.null(parsed$results)) {
-    return(tibble())
-  }
-  
-  as_tibble(parsed$results) |>
-    transmute(
-      station_id = station,
-      date = as.Date(substr(date, 1, 10)),
-      datatype = datatype,
-      value = value
+  warning(
+    paste(
+      "Weather request failed after retries:",
+      station_id, year, datatype_id
     )
+  )
+  
+  tibble()
 }
 
 # =========================
 # STEP 4: PULL DAILY WEATHER
 # =========================
 
-datatype_ids <- c("TMAX", "TMIN", "PRCP")
+# Use sleep system to avoid API over usage
+
+datatype_ids <- c("TMAX", "TMIN", "PRCP", "AWND")
 
 weather_list <- vector("list", length = nrow(station_year_requests) * length(datatype_ids))
 counter <- 1
@@ -183,10 +192,27 @@ cat("Daily weather rows pulled:", nrow(weather_daily), "\n")
 cat("Location-dates missing TMAX:", sum(is.na(location_dates_with_weather$TMAX)), "\n")
 cat("Location-dates missing TMIN:", sum(is.na(location_dates_with_weather$TMIN)), "\n")
 cat("Location-dates missing PRCP:", sum(is.na(location_dates_with_weather$PRCP)), "\n")
+cat("Location-dates missing AWND:", sum(is.na(location_dates_with_weather$AWND)), "\n")
 
 weather_daily |>
   head(20)
 
 matches_with_weather |>
-  select(tourney_name, match_date, station_id, TMAX, TMIN, PRCP) |>
+  select(tourney_name, match_date, station_id, TMAX, TMIN, PRCP, AWND) |>
   head(20)
+
+# =========================
+# STEP 8: Save data
+# =========================
+
+# save cleaned daily weather dataset
+write_csv(
+  weather_daily,
+  "data/cleaned/weather_daily.csv"
+)
+
+# save final match-level dataset with weather merged in
+write_csv(
+  matches_with_weather,
+  "data/cleaned/matches_with_weather.csv"
+)
