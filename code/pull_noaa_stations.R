@@ -148,7 +148,7 @@ get_station_candidates_expanding <- function(lat,
 # STEP 4: FIND STATIONS
 # =========================
 
-# =========================
+ # =========================
 # STEP 4: FIND STATIONS
 # =========================
 
@@ -164,7 +164,7 @@ for (i in seq_len(nrow(location_date_ranges))) {
     search_boxes = c(0.5, 1.0, 1.5, 2.0, 3.0),
     limit = 1000
   )
-  
+
   cat("Completed station search", i, "of", nrow(location_date_ranges), "\n")
   Sys.sleep(0.25)
 }
