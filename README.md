@@ -62,38 +62,41 @@ These datasets provide the core match outcomes that the machine learning models 
 
 ## Dataset 2: Historical Weather Data
 
-**Source:** National Oceanic and Atmospheric Administration (NOAA)
+**Source:** NASA POWER (Prediction Of Worldwide Energy Resources)
 
-NOAA Global Historical Climatology Network (GHCN):  
-https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-daily
-
-NOAA Climate Data Online portal:  
-https://www.ncei.noaa.gov/cdo-web/
+NASA POWER API:  
+https://power.larc.nasa.gov/
 
 **Contents:**  
-NOAA provides historical weather observations from meteorological stations worldwide. These datasets include daily weather measurements such as:
+NASA POWER provides global, gridded meteorological data based on latitude, longitude, and date. The dataset includes daily weather variables such as:
 
-- temperature  
-- precipitation  
-- wind speed  
-- humidity  
-- atmospheric pressure  
+- maximum temperature (T2M_MAX)  
+- minimum temperature (T2M_MIN)  
+- total precipitation (PRECTOTCORR)  
+- wind speed (WS2M)  
+- relative humidity (RH2M)  
+
+These variables are derived from a combination of satellite observations, ground measurements, and atmospheric models, and are provided in a consistent format across all geographic locations.
 
 **Timespan:**  
-Weather station data span multiple decades and in many cases extend back to the early twentieth century.
+Daily data are available globally from 1981 to the present.
 
 **Spatial coverage:**  
-Global weather station network.
+Global coverage on a gridded system (approximately 0.5° resolution).
 
 **Why it is useful:**  
-Weather conditions may influence outdoor tennis matches through factors such as temperature, humidity, and wind. These variables may affect player endurance, ball speed, and match conditions. Incorporating weather data provides an additional external dataset that can be merged with tennis match records. This additional information on its own will not predict the winner but will help reduce ommitted variable bias and allow for interaction effects with certain player charecteristics. For example a player with a strong serve may face a massive disadvantage playing in windy weather to a conservative baseline player. 
+Weather conditions may influence outdoor tennis matches through factors such as temperature, humidity, precipitation, and wind. These variables can affect player endurance, ball speed, and overall match conditions. An initial station-based approach using NOAA weather data was considered. However, station-based data require selecting nearby weather stations and handling missing observations, which introduces complexity and potential inconsistencies across locations. The NASA POWER dataset allows weather to be assigned directly using tournament latitude, longitude, and match date, ensuring complete coverage and consistent measurement across all tournaments. A limitation of this approach is that the data are spatially averaged over grid cells (approximately 50 km), which may smooth localized weather variation relative to station-based observations. However, the gain in completeness and consistency is well suited for a global match-level analysis.
 
 ---
 
-## Plausible Merge Strategy
+## Weather Data Merge Strategy
 
-The ATP historical tennis database will serve as the base match-level dataset. Within the repro Match level data will have to be merged with ranking data by player name and the relative date. Each row will represents a single match between two players and includes the tournament name, match date, and playing surface along with both players data.
+Weather data will be merged to the match-level dataset using tournament location and match date. Each tournament is associated with a fixed latitude and longitude, and daily weather variables are retrieved for the corresponding date range using the NASA POWER API.
 
-Weather data from NOAA will be merged onto the dataset using the tournament location and match date. Each match will be associated with weather observations from the closest available weather station near the tournament location.
+Weather variables are then merged to each match by matching on:
 
-This process will allow the construction of additional contextual predictors such as match-day temperature, humidity, and wind conditions alongside player-level predictors derived from the tennis datasets. 
+- tournament name  
+- tournament year  
+- match date  
+
+This approach assigns consistent weather conditions to each match without requiring station selection or imputation of missing observations. Because the weather data are provided as a complete daily time series for each location, all matches receive corresponding weather values.
