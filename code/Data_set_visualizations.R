@@ -212,7 +212,7 @@ Precipitation_and_upset_probability
 atp_data <- atp_data |>
   mutate(
     rank_diff = abs(winner_rank - loser_rank),
-    close_match = rank_diff <= 1   # you can adjust this later
+    close_match = rank_diff <= 20   # you can adjust this later
   )
 close_data <- atp_data |>
   filter(close_match)
@@ -259,4 +259,105 @@ Upset_Probability_in_Close_Matches_Under_Extreme_Heat
 # effect possibly grows when ratings are close however estimates are
 # extremely sensitive to changes in close matches qualification i.e <=1, <=5.
 
+atp_data <- atp_data |>
+  mutate(
+    total_df = w_df + l_df,
+    total_aces = w_ace + l_ace
+  )
 
+# -------------------------------------------------------------------------
+# Figure 1: Extreme wind and double faults
+# -------------------------------------------------------------------------
+
+df_summary <- atp_data |>
+  group_by(extreme_wind) |>
+  summarise(
+    avg_total_df = mean(total_df, na.rm = TRUE),
+    n_matches = n(),
+    .groups = "drop"
+  ) |>
+  mutate(
+    wind_condition = if_else(extreme_wind, "Extreme wind", "Normal wind")
+  )
+
+p1 <- ggplot(df_summary, aes(x = wind_condition, y = avg_total_df)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = paste0(round(avg_total_df, 2))),
+    vjust = -0.35,
+    size = 4
+  ) +
+  labs(
+    title = "Average Double Faults Under Wind Conditions",
+    subtitle = "Extreme wind defined as the top 10% of wind speed observations",
+    x = NULL,
+    y = "Average total double faults per match"
+  ) +
+  theme_minimal()
+
+print(p1)
+
+# -------------------------------------------------------------------------
+# Figure 2: Extreme wind and aces
+# -------------------------------------------------------------------------
+
+ace_summary <- atp_data |>
+  group_by(extreme_wind) |>
+  summarise(
+    avg_total_aces = mean(total_aces, na.rm = TRUE),
+    n_matches = n(),
+    .groups = "drop"
+  ) |>
+  mutate(
+    wind_condition = if_else(extreme_wind, "Extreme wind", "Normal wind")
+  )
+
+p2 <- ggplot(ace_summary, aes(x = wind_condition, y = avg_total_aces)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = paste0(round(avg_total_aces, 2))),
+    vjust = -0.35,
+    size = 4
+  ) +
+  labs(
+    title = "Average Aces Under Wind Conditions",
+    subtitle = "Extreme wind defined as the top 10% of wind speed observations",
+    x = NULL,
+    y = "Average total aces per match"
+  ) +
+  theme_minimal()
+
+print(p2)
+
+# -------------------------------------------------------------------------
+# Figure 3: Extreme heat and match length
+# -------------------------------------------------------------------------
+
+minutes_summary <- atp_data |>
+  filter(!is.na(minutes)) |>
+  group_by(extreme_heat) |>
+  summarise(
+    avg_minutes = mean(minutes, na.rm = TRUE),
+    n_matches = n(),
+    .groups = "drop"
+  ) |>
+  mutate(
+    heat_condition = if_else(extreme_heat, "Extreme heat", "Normal conditions")
+  )
+
+p3 <- ggplot(minutes_summary, aes(x = heat_condition, y = avg_minutes)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = paste0(round(avg_minutes, 1))),
+    vjust = -0.35,
+    size = 4
+  ) +
+  labs(
+    title = "Average Match Length Under Heat Conditions",
+    subtitle = "Extreme heat defined as the top 10% of maximum temperature observations",
+    x = NULL,
+    y = "Average match length (minutes)"
+  ) +
+  theme_minimal()
+
+print(p3)
