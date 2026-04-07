@@ -2,6 +2,13 @@
 
 # ECNS 460 Term Project: Predicting Tennis Match Outcomes with Machine Learning
 
+## Reproduction in RStudio
+Use this as the single replication method: open the project in RStudio and run `source("code/run_all.R")`.
+
+This executes the full pipeline sequentially (including the NASA weather pull step) using only project-relative paths.
+
+---
+
 ## Name
 - Cooper Brueck
 
