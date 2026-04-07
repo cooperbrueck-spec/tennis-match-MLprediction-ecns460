@@ -202,13 +202,6 @@ After running all steps, verify these files exist:
 - `data/cleaned/atp_matches_prefeature.csv`
 - `data/cleaned/atp_rankings_features.csv`
 - `data/cleaned/atp_matches_weather_ranking_data.csv`
-
-Optional validation command:
-
-```bash
-ls data/cleaned data/reference_tables
-```
-
 ---
 
 ## 7) Notes and caveats
