@@ -216,5 +216,4 @@ write_csv(
 write_csv(
   matches_with_weather,
   "data/cleaned/atp_matches_with_nasa_weather.csv"
->>>>>>> d6cb0556be31e15367869badf740f6f557fc9374
 )
