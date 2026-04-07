@@ -1,0 +1,3 @@
+extreme_wind,upset_rate,n_matches,condition
+FALSE,0.3481404958677686,34949,Non-extreme wind
+TRUE,0.3498332905873301,3906,Extreme wind

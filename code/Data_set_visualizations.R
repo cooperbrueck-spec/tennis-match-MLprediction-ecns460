@@ -236,6 +236,13 @@ save_table(heat_close_summary, "upset_probability_close_matches_extreme_heat_sum
 #             high-ace underdog vs ace-vulnerable favorite
 # -------------------------------------------------------------------------
 
+# -------------------------------------------------------------------------
+# Upset rate by rank difference for:
+# 1. All matches
+# 2. High-ace underdog vs ace-vulnerable favorite
+# 3. High-ace favorite vs low-ace underdog
+# -------------------------------------------------------------------------
+
 player_serve_return_profile <- bind_rows(
   atp_data |>
     transmute(
@@ -262,12 +269,28 @@ player_serve_return_profile <- bind_rows(
     .groups = "drop"
   )
 
-high_ace_cutoff <- quantile(player_serve_return_profile$ace_rate_on_1st_serve, 0.75, na.rm = TRUE)
-ace_vulnerable_cutoff <- quantile(player_serve_return_profile$aces_allowed_rate_on_opp_1st_serve, 0.75, na.rm = TRUE)
+high_ace_cutoff <- quantile(
+  player_serve_return_profile$ace_rate_on_1st_serve,
+  0.75,
+  na.rm = TRUE
+)
+
+low_ace_cutoff <- quantile(
+  player_serve_return_profile$ace_rate_on_1st_serve,
+  0.25,
+  na.rm = TRUE
+)
+
+ace_vulnerable_cutoff <- quantile(
+  player_serve_return_profile$aces_allowed_rate_on_opp_1st_serve,
+  0.75,
+  na.rm = TRUE
+)
 
 player_serve_return_profile <- player_serve_return_profile |>
   mutate(
     high_ace_server = ace_rate_on_1st_serve >= high_ace_cutoff,
+    low_ace_server = ace_rate_on_1st_serve <= low_ace_cutoff,
     ace_vulnerable_returner = aces_allowed_rate_on_opp_1st_serve >= ace_vulnerable_cutoff
   )
 
@@ -290,17 +313,30 @@ favorite_underdog_matchups <- atp_data |>
 upset_ace_matchup_data <- favorite_underdog_matchups |>
   left_join(
     player_serve_return_profile |>
-      select(player_id, underdog_high_ace_server = high_ace_server),
+      select(
+        player_id,
+        underdog_high_ace_server = high_ace_server,
+        underdog_low_ace_server = low_ace_server
+      ),
     by = c("underdog_id" = "player_id")
   ) |>
   left_join(
     player_serve_return_profile |>
-      select(player_id, favorite_ace_vulnerable_returner = ace_vulnerable_returner),
+      select(
+        player_id,
+        favorite_high_ace_server = high_ace_server,
+        favorite_ace_vulnerable_returner = ace_vulnerable_returner
+      ),
     by = c("favorite_id" = "player_id")
   ) |>
   mutate(
     good_server_vs_bad_returner =
-      coalesce(underdog_high_ace_server, FALSE) & coalesce(favorite_ace_vulnerable_returner, FALSE)
+      coalesce(underdog_high_ace_server, FALSE) &
+      coalesce(favorite_ace_vulnerable_returner, FALSE),
+    
+    favorite_high_ace_vs_underdog_low_ace =
+      coalesce(favorite_high_ace_server, FALSE) &
+      coalesce(underdog_low_ace_server, FALSE)
   )
 
 upset_rate_all_matches <- upset_ace_matchup_data |>
@@ -322,27 +358,45 @@ upset_rate_good_server_bad_returner <- upset_ace_matchup_data |>
     .groups = "drop"
   )
 
+upset_rate_favorite_high_ace <- upset_ace_matchup_data |>
+  filter(favorite_high_ace_vs_underdog_low_ace) |>
+  group_by(rank_diff) |>
+  summarise(
+    upset_rate = mean(upset_occurred, na.rm = TRUE),
+    n_matches = n(),
+    group = "High-ace favorite vs low-ace underdog",
+    .groups = "drop"
+  )
+
 upset_rate_comparison <- bind_rows(
   upset_rate_all_matches,
-  upset_rate_good_server_bad_returner
+  upset_rate_good_server_bad_returner,
+  upset_rate_favorite_high_ace
 ) |>
-  filter(rank_diff >= 1, rank_diff <= 100, n_matches >= 20)
+  filter(rank_diff >= 1, rank_diff <= 25, n_matches >= 10) |>
+  arrange(rank_diff, upset_rate)
 
 fig_upset_rate_rankdiff_ace_matchup <- ggplot(
   upset_rate_comparison,
   aes(x = rank_diff, y = upset_rate, color = group)
 ) +
-  geom_line(linewidth = 1) +
+  geom_line(
+    aes(group = rank_diff),
+    color = "gray60",
+    linewidth = 0.8
+  ) +
+  geom_point(size = 2.8) +
   labs(
     title = "Upset Probability by Ranking Difference",
-    subtitle = "Comparing all matches vs. high-ace underdog facing an ace-vulnerable favorite",
-    x = "Ranking difference (favorite rank - underdog rank)",
+    subtitle = "Upset Probability comparison across all matches, underdog ace advantages, and favorite ace advantages",
+    x = "Ranking difference",
     y = "Upset probability",
     color = NULL
   ) +
   scale_y_continuous(labels = scales::percent_format()) +
   theme_minimal()
 
+fig_upset_rate_rankdiff_ace_matchup
 save_plot(fig_upset_rate_rankdiff_ace_matchup, "upset_probability_rankdiff_high_ace_vs_ace_vulnerable.png")
 save_table(player_serve_return_profile, "player_serve_return_profiles.csv")
 save_table(upset_rate_comparison, "upset_probability_rankdiff_high_ace_vs_ace_vulnerable_summary.csv")

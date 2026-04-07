@@ -1,0 +1,3 @@
+precipitation_event,upset_rate,n_matches,condition
+FALSE,0.3451598277034686,8856,No precipitation
+TRUE,0.34923976608187135,29999,Precipitation

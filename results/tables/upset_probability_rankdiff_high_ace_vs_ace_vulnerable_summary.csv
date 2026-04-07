@@ -1,0 +1,73 @@
+rank_diff,upset_rate,n_matches,group
+1,0.45454545454545453,11,High-ace favorite vs low-ace underdog
+1,0.4778156996587031,586,All matches
+1,0.6875,16,High-ace underdog vs ace-vulnerable favorite
+2,0.16666666666666666,12,High-ace favorite vs low-ace underdog
+2,0.4726027397260274,584,All matches
+2,0.8235294117647058,17,High-ace underdog vs ace-vulnerable favorite
+3,0.3888888888888889,18,High-ace underdog vs ace-vulnerable favorite
+3,0.4716981132075472,636,All matches
+4,0.26666666666666666,15,High-ace favorite vs low-ace underdog
+4,0.44481054365733114,607,All matches
+4,0.5882352941176471,17,High-ace underdog vs ace-vulnerable favorite
+5,0.35294117647058826,17,High-ace favorite vs low-ace underdog
+5,0.43781942078364566,587,All matches
+5,0.55,20,High-ace underdog vs ace-vulnerable favorite
+6,0.3125,16,High-ace favorite vs low-ace underdog
+6,0.4400684931506849,584,All matches
+6,0.5,18,High-ace underdog vs ace-vulnerable favorite
+7,0.43645484949832775,598,All matches
+7,0.4444444444444444,18,High-ace favorite vs low-ace underdog
+7,0.7333333333333333,15,High-ace underdog vs ace-vulnerable favorite
+8,0.4166666666666667,12,High-ace underdog vs ace-vulnerable favorite
+8,0.4198198198198198,555,All matches
+9,0.4,15,High-ace favorite vs low-ace underdog
+9,0.41605839416058393,548,All matches
+9,0.47368421052631576,19,High-ace underdog vs ace-vulnerable favorite
+10,0.16666666666666666,12,High-ace favorite vs low-ace underdog
+10,0.41316270566727603,547,All matches
+10,0.5625,16,High-ace underdog vs ace-vulnerable favorite
+11,0.25,12,High-ace favorite vs low-ace underdog
+11,0.4491682070240296,541,All matches
+11,0.5294117647058824,17,High-ace underdog vs ace-vulnerable favorite
+12,0.43478260869565216,506,All matches
+12,0.5,20,High-ace underdog vs ace-vulnerable favorite
+12,0.5,16,High-ace favorite vs low-ace underdog
+13,0.4117647058823529,17,High-ace favorite vs low-ace underdog
+13,0.411864406779661,590,All matches
+13,0.5833333333333334,12,High-ace underdog vs ace-vulnerable favorite
+14,0.25,12,High-ace favorite vs low-ace underdog
+14,0.3800383877159309,521,All matches
+14,0.55,20,High-ace underdog vs ace-vulnerable favorite
+15,0.11764705882352941,17,High-ace favorite vs low-ace underdog
+15,0.425891181988743,533,All matches
+15,0.6153846153846154,13,High-ace underdog vs ace-vulnerable favorite
+16,0.4104627766599598,497,All matches
+16,0.4666666666666667,15,High-ace underdog vs ace-vulnerable favorite
+17,0.42771084337349397,498,All matches
+17,0.43478260869565216,23,High-ace underdog vs ace-vulnerable favorite
+17,0.4666666666666667,15,High-ace favorite vs low-ace underdog
+18,0.4166666666666667,12,High-ace underdog vs ace-vulnerable favorite
+18,0.4215885947046843,491,All matches
+18,0.45454545454545453,11,High-ace favorite vs low-ace underdog
+19,0.35294117647058826,17,High-ace favorite vs low-ace underdog
+19,0.3983739837398374,492,All matches
+19,0.46153846153846156,13,High-ace underdog vs ace-vulnerable favorite
+20,0.3076923076923077,13,High-ace favorite vs low-ace underdog
+20,0.3550420168067227,476,All matches
+20,0.6363636363636364,11,High-ace underdog vs ace-vulnerable favorite
+21,0.3962655601659751,482,All matches
+21,0.4117647058823529,17,High-ace underdog vs ace-vulnerable favorite
+21,0.4375,16,High-ace favorite vs low-ace underdog
+22,0.25,24,High-ace favorite vs low-ace underdog
+22,0.39250493096646943,507,All matches
+22,0.5454545454545454,11,High-ace underdog vs ace-vulnerable favorite
+23,0.2,15,High-ace favorite vs low-ace underdog
+23,0.3849129593810445,517,All matches
+23,0.5333333333333333,15,High-ace underdog vs ace-vulnerable favorite
+24,0.21052631578947367,19,High-ace favorite vs low-ace underdog
+24,0.367112810707457,523,All matches
+24,0.55,20,High-ace underdog vs ace-vulnerable favorite
+25,0.25,20,High-ace favorite vs low-ace underdog
+25,0.3857442348008386,477,All matches
+25,0.46153846153846156,13,High-ace underdog vs ace-vulnerable favorite

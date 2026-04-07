@@ -1,0 +1,3 @@
+extreme_heat,upset_rate,n_matches,condition
+FALSE,0.3478373478373478,34844,Non-extreme heat
+TRUE,0.35242621310655325,4011,Extreme heat
