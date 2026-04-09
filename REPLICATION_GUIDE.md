@@ -1,4 +1,4 @@
-# RStudio Replication Guide (Single Method)
+# RStudio Replication Guide
 
 This project should be replicated **one way**: from **RStudio**, by running one script.
 
