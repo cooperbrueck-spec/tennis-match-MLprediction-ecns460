@@ -1,0 +1,189 @@
+column,feature_group,data_type,pct_missing,description
+match_id,match_context,numeric,0,Unique match identifier inherited from the cleaned input dataset.
+match_date,match_context,Date,0,Standardized match date used for chronological feature construction.
+tourney_date,match_context,Date,0,Tournament start date from the cleaned input file.
+tourney_id,match_context,character,0,Tournament identifier from the cleaned input file.
+tourney_name,match_context,character,0,Tournament name from the cleaned input file.
+tourney_level,match_context,character,0,ATP tournament level code.
+round,match_context,character,0,Round code from the cleaned input file.
+surface,match_context,character,0,Match surface category.
+best_of,match_context,numeric,0,Scheduled best-of format when available.
+draw_size,match_context,numeric,0,Tournament draw size when available.
+match_num,match_context,numeric,0,Within-tournament match number used in deterministic tie-breaking.
+player_A_id,player_identity,numeric,0,Player A identifier. Player A is the higher-ranked player before the match.
+player_A_name,player_identity,character,0,Player A name from the cleaned input file.
+player_B_id,player_identity,numeric,0,Player B identifier. Player B is the lower-ranked player before the match.
+player_B_name,player_identity,character,0,Player B name from the cleaned input file.
+winner_id,player_identity,numeric,0,Original winner identifier from the cleaned input file.
+winner_name,player_identity,character,0,Original winner name from the cleaned input file.
+loser_id,player_identity,numeric,0,Original loser identifier from the cleaned input file.
+loser_name,player_identity,character,0,Original loser name from the cleaned input file.
+rank_A,ranking,numeric,0,Pre-match ATP rank for Player A; lower numeric value means stronger rank.
+rank_B,ranking,numeric,0,Pre-match ATP rank for Player B.
+rank_diff,ranking,numeric,0,Ranking gap defined as rank_B minus rank_A.
+rank_ratio,ranking,numeric,0,Ranking ratio defined as rank_B divided by rank_A when both ranks are positive.
+rank_points_A,ranking,numeric,0,Pre-match ATP ranking points for Player A.
+rank_points_B,ranking,numeric,0,Pre-match ATP ranking points for Player B.
+outcome_A_win,target,integer,0,Binary target equal to 1 when Player A won and 0 when Player A lost.
+lag_rank_1wk_A,ranking,numeric,0,Pre-match value for Player A of lag_rank_1wk computed from prior data only.
+lag_rank_4wk_A,ranking,numeric,0,Pre-match value for Player A of lag_rank_4wk computed from prior data only.
+lag_points_1wk_A,ranking,numeric,0,Pre-match value for Player A of lag_points_1wk computed from prior data only.
+lag_points_4wk_A,ranking,numeric,0,Pre-match value for Player A of lag_points_4wk computed from prior data only.
+rank_change_1wk_A,ranking,numeric,0,Pre-match value for Player A of rank_change_1wk computed from prior data only.
+rank_change_4wk_A,ranking,numeric,0,Pre-match value for Player A of rank_change_4wk computed from prior data only.
+points_change_1wk_A,ranking,numeric,0,Pre-match value for Player A of points_change_1wk computed from prior data only.
+points_change_4wk_A,ranking,numeric,0,Pre-match value for Player A of points_change_4wk computed from prior data only.
+avg_rank_4wk_A,ranking,numeric,0,Pre-match value for Player A of avg_rank_4wk computed from prior data only.
+avg_rank_8wk_A,ranking,numeric,0,Pre-match value for Player A of avg_rank_8wk computed from prior data only.
+sd_rank_8wk_A,ranking,numeric,0,Pre-match value for Player A of sd_rank_8wk computed from prior data only.
+avg_points_4wk_A,ranking,numeric,0,Pre-match value for Player A of avg_points_4wk computed from prior data only.
+avg_points_8wk_A,ranking,numeric,0,Pre-match value for Player A of avg_points_8wk computed from prior data only.
+sd_points_8wk_A,ranking,numeric,0,Pre-match value for Player A of sd_points_8wk computed from prior data only.
+lag_rank_1wk_B,ranking,numeric,0,Pre-match value for Player B of lag_rank_1wk computed from prior data only.
+lag_rank_4wk_B,ranking,numeric,0.015,Pre-match value for Player B of lag_rank_4wk computed from prior data only.
+lag_points_1wk_B,ranking,numeric,0,Pre-match value for Player B of lag_points_1wk computed from prior data only.
+lag_points_4wk_B,ranking,numeric,0.015,Pre-match value for Player B of lag_points_4wk computed from prior data only.
+rank_change_1wk_B,ranking,numeric,0,Pre-match value for Player B of rank_change_1wk computed from prior data only.
+rank_change_4wk_B,ranking,numeric,0.015,Pre-match value for Player B of rank_change_4wk computed from prior data only.
+points_change_1wk_B,ranking,numeric,0,Pre-match value for Player B of points_change_1wk computed from prior data only.
+points_change_4wk_B,ranking,numeric,0.015,Pre-match value for Player B of points_change_4wk computed from prior data only.
+avg_rank_4wk_B,ranking,numeric,0.005,Pre-match value for Player B of avg_rank_4wk computed from prior data only.
+avg_rank_8wk_B,ranking,numeric,0.026,Pre-match value for Player B of avg_rank_8wk computed from prior data only.
+sd_rank_8wk_B,ranking,numeric,0.026,Pre-match value for Player B of sd_rank_8wk computed from prior data only.
+avg_points_4wk_B,ranking,numeric,0.005,Pre-match value for Player B of avg_points_4wk computed from prior data only.
+avg_points_8wk_B,ranking,numeric,0.026,Pre-match value for Player B of avg_points_8wk computed from prior data only.
+sd_points_8wk_B,ranking,numeric,0.026,Pre-match value for Player B of sd_points_8wk computed from prior data only.
+lag_rank_1wk_diff,ranking,numeric,0,Difference feature defined as Player A minus Player B for lag_rank_1wk .
+lag_rank_4wk_diff,ranking,numeric,0.015,Difference feature defined as Player A minus Player B for lag_rank_4wk .
+lag_points_1wk_diff,ranking,numeric,0,Difference feature defined as Player A minus Player B for lag_points_1wk .
+lag_points_4wk_diff,ranking,numeric,0.015,Difference feature defined as Player A minus Player B for lag_points_4wk .
+rank_change_1wk_diff,ranking,numeric,0,Difference feature defined as Player A minus Player B for rank_change_1wk .
+rank_change_4wk_diff,ranking,numeric,0.015,Difference feature defined as Player A minus Player B for rank_change_4wk .
+points_change_1wk_diff,ranking,numeric,0,Difference feature defined as Player A minus Player B for points_change_1wk .
+points_change_4wk_diff,ranking,numeric,0.015,Difference feature defined as Player A minus Player B for points_change_4wk .
+avg_rank_4wk_diff,ranking,numeric,0.005,Difference feature defined as Player A minus Player B for avg_rank_4wk .
+avg_rank_8wk_diff,ranking,numeric,0.026,Difference feature defined as Player A minus Player B for avg_rank_8wk .
+sd_rank_8wk_diff,ranking,numeric,0.026,Difference feature defined as Player A minus Player B for sd_rank_8wk .
+avg_points_4wk_diff,ranking,numeric,0.005,Difference feature defined as Player A minus Player B for avg_points_4wk .
+avg_points_8wk_diff,ranking,numeric,0.026,Difference feature defined as Player A minus Player B for avg_points_8wk .
+sd_points_8wk_diff,ranking,numeric,0.026,Difference feature defined as Player A minus Player B for sd_points_8wk .
+elo_A,elo,numeric,0,Pre-match value for Player A of elo computed from prior data only.
+elo_B,elo,numeric,0,Pre-match value for Player B of elo computed from prior data only.
+elo_diff,elo,numeric,0,Difference feature defined as Player A minus Player B for elo .
+surface_elo_A,elo,numeric,0,Pre-match value for Player A of surface_elo computed from prior data only.
+surface_elo_B,elo,numeric,0,Pre-match value for Player B of surface_elo computed from prior data only.
+surface_elo_diff,elo,numeric,0,Difference feature defined as Player A minus Player B for surface_elo .
+prior_match_count_A,recent_form,integer,0,Pre-match value for Player A of prior_match_count computed from prior data only.
+matches_played_last_7d_A,recent_form,integer,0,Pre-match value for Player A of matches_played_last_7d computed from prior data only.
+matches_played_last_14d_A,recent_form,integer,0,Pre-match value for Player A of matches_played_last_14d computed from prior data only.
+wins_last_5_A,recent_form,numeric,1.461,Pre-match value for Player A of wins_last_5 computed from prior data only.
+wins_last_10_A,recent_form,numeric,2.893,Pre-match value for Player A of wins_last_10 computed from prior data only.
+win_rate_last_5_A,recent_form,numeric,1.461,Pre-match value for Player A of win_rate_last_5 computed from prior data only.
+win_rate_last_10_A,recent_form,numeric,2.893,Pre-match value for Player A of win_rate_last_10 computed from prior data only.
+prior_surface_matches_A,surface_form,integer,0,Pre-match value for Player A of prior_surface_matches computed from prior data only.
+surface_win_rate_last_5_A,surface_form,numeric,5.012,Pre-match value for Player A of surface_win_rate_last_5 computed from prior data only.
+surface_win_rate_last_10_A,surface_form,numeric,9.851,Pre-match value for Player A of surface_win_rate_last_10 computed from prior data only.
+ace_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of ace_rate_last_5 computed from prior data only.
+ace_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of ace_rate_last_10 computed from prior data only.
+double_fault_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of double_fault_rate_last_5 computed from prior data only.
+double_fault_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of double_fault_rate_last_10 computed from prior data only.
+first_serve_in_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of first_serve_in_rate_last_5 computed from prior data only.
+first_serve_in_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of first_serve_in_rate_last_10 computed from prior data only.
+first_serve_points_won_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of first_serve_points_won_rate_last_5 computed from prior data only.
+first_serve_points_won_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of first_serve_points_won_rate_last_10 computed from prior data only.
+second_serve_points_won_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of second_serve_points_won_rate_last_5 computed from prior data only.
+second_serve_points_won_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of second_serve_points_won_rate_last_10 computed from prior data only.
+service_points_won_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of service_points_won_rate_last_5 computed from prior data only.
+service_points_won_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of service_points_won_rate_last_10 computed from prior data only.
+break_points_saved_rate_last_5_A,serve_return,numeric,1.487,Pre-match value for Player A of break_points_saved_rate_last_5 computed from prior data only.
+break_points_saved_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of break_points_saved_rate_last_10 computed from prior data only.
+ace_rate_allowed_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of ace_rate_allowed_last_5 computed from prior data only.
+ace_rate_allowed_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of ace_rate_allowed_last_10 computed from prior data only.
+opp_first_serve_in_rate_allowed_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of opp_first_serve_in_rate_allowed_last_5 computed from prior data only.
+opp_first_serve_in_rate_allowed_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of opp_first_serve_in_rate_allowed_last_10 computed from prior data only.
+return_points_won_rate_last_5_A,serve_return,numeric,1.474,Pre-match value for Player A of return_points_won_rate_last_5 computed from prior data only.
+return_points_won_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of return_points_won_rate_last_10 computed from prior data only.
+break_points_converted_rate_last_5_A,serve_return,numeric,1.476,Pre-match value for Player A of break_points_converted_rate_last_5 computed from prior data only.
+break_points_converted_rate_last_10_A,serve_return,numeric,2.893,Pre-match value for Player A of break_points_converted_rate_last_10 computed from prior data only.
+prior_match_count_B,recent_form,integer,0,Pre-match value for Player B of prior_match_count computed from prior data only.
+matches_played_last_7d_B,recent_form,integer,0,Pre-match value for Player B of matches_played_last_7d computed from prior data only.
+matches_played_last_14d_B,recent_form,integer,0,Pre-match value for Player B of matches_played_last_14d computed from prior data only.
+wins_last_5_B,recent_form,numeric,8.215,Pre-match value for Player B of wins_last_5 computed from prior data only.
+wins_last_10_B,recent_form,numeric,13.568,Pre-match value for Player B of wins_last_10 computed from prior data only.
+win_rate_last_5_B,recent_form,numeric,8.215,Pre-match value for Player B of win_rate_last_5 computed from prior data only.
+win_rate_last_10_B,recent_form,numeric,13.568,Pre-match value for Player B of win_rate_last_10 computed from prior data only.
+prior_surface_matches_B,surface_form,integer,0,Pre-match value for Player B of prior_surface_matches computed from prior data only.
+surface_win_rate_last_5_B,surface_form,numeric,15.286,Pre-match value for Player B of surface_win_rate_last_5 computed from prior data only.
+surface_win_rate_last_10_B,surface_form,numeric,24.482,Pre-match value for Player B of surface_win_rate_last_10 computed from prior data only.
+ace_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of ace_rate_last_5 computed from prior data only.
+ace_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of ace_rate_last_10 computed from prior data only.
+double_fault_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of double_fault_rate_last_5 computed from prior data only.
+double_fault_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of double_fault_rate_last_10 computed from prior data only.
+first_serve_in_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of first_serve_in_rate_last_5 computed from prior data only.
+first_serve_in_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of first_serve_in_rate_last_10 computed from prior data only.
+first_serve_points_won_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of first_serve_points_won_rate_last_5 computed from prior data only.
+first_serve_points_won_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of first_serve_points_won_rate_last_10 computed from prior data only.
+second_serve_points_won_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of second_serve_points_won_rate_last_5 computed from prior data only.
+second_serve_points_won_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of second_serve_points_won_rate_last_10 computed from prior data only.
+service_points_won_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of service_points_won_rate_last_5 computed from prior data only.
+service_points_won_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of service_points_won_rate_last_10 computed from prior data only.
+break_points_saved_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of break_points_saved_rate_last_5 computed from prior data only.
+break_points_saved_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of break_points_saved_rate_last_10 computed from prior data only.
+ace_rate_allowed_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of ace_rate_allowed_last_5 computed from prior data only.
+ace_rate_allowed_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of ace_rate_allowed_last_10 computed from prior data only.
+opp_first_serve_in_rate_allowed_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of opp_first_serve_in_rate_allowed_last_5 computed from prior data only.
+opp_first_serve_in_rate_allowed_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of opp_first_serve_in_rate_allowed_last_10 computed from prior data only.
+return_points_won_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of return_points_won_rate_last_5 computed from prior data only.
+return_points_won_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of return_points_won_rate_last_10 computed from prior data only.
+break_points_converted_rate_last_5_B,serve_return,numeric,8.223,Pre-match value for Player B of break_points_converted_rate_last_5 computed from prior data only.
+break_points_converted_rate_last_10_B,serve_return,numeric,13.568,Pre-match value for Player B of break_points_converted_rate_last_10 computed from prior data only.
+prior_match_count_diff,recent_form,integer,0,Difference feature defined as Player A minus Player B for prior_match_count .
+matches_played_last_7d_diff,recent_form,integer,0,Difference feature defined as Player A minus Player B for matches_played_last_7d .
+matches_played_last_14d_diff,recent_form,integer,0,Difference feature defined as Player A minus Player B for matches_played_last_14d .
+wins_last_5_diff,recent_form,numeric,8.615,Difference feature defined as Player A minus Player B for wins_last_5 .
+wins_last_10_diff,recent_form,numeric,14.331,Difference feature defined as Player A minus Player B for wins_last_10 .
+win_rate_last_5_diff,recent_form,numeric,8.615,Difference feature defined as Player A minus Player B for win_rate_last_5 .
+win_rate_last_10_diff,recent_form,numeric,14.331,Difference feature defined as Player A minus Player B for win_rate_last_10 .
+prior_surface_matches_diff,surface_form,integer,0,Difference feature defined as Player A minus Player B for prior_surface_matches .
+surface_win_rate_last_5_diff,surface_form,numeric,17.372,Difference feature defined as Player A minus Player B for surface_win_rate_last_5 .
+surface_win_rate_last_10_diff,surface_form,numeric,27.832,Difference feature defined as Player A minus Player B for surface_win_rate_last_10 .
+ace_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for ace_rate_last_5 .
+ace_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for ace_rate_last_10 .
+double_fault_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for double_fault_rate_last_5 .
+double_fault_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for double_fault_rate_last_10 .
+first_serve_in_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for first_serve_in_rate_last_5 .
+first_serve_in_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for first_serve_in_rate_last_10 .
+first_serve_points_won_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for first_serve_points_won_rate_last_5 .
+first_serve_points_won_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for first_serve_points_won_rate_last_10 .
+second_serve_points_won_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for second_serve_points_won_rate_last_5 .
+second_serve_points_won_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for second_serve_points_won_rate_last_10 .
+service_points_won_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for service_points_won_rate_last_5 .
+service_points_won_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for service_points_won_rate_last_10 .
+break_points_saved_rate_last_5_diff,serve_return,numeric,8.643,Difference feature defined as Player A minus Player B for break_points_saved_rate_last_5 .
+break_points_saved_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for break_points_saved_rate_last_10 .
+ace_rate_allowed_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for ace_rate_allowed_last_5 .
+ace_rate_allowed_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for ace_rate_allowed_last_10 .
+opp_first_serve_in_rate_allowed_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for opp_first_serve_in_rate_allowed_last_5 .
+opp_first_serve_in_rate_allowed_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for opp_first_serve_in_rate_allowed_last_10 .
+return_points_won_rate_last_5_diff,serve_return,numeric,8.63,Difference feature defined as Player A minus Player B for return_points_won_rate_last_5 .
+return_points_won_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for return_points_won_rate_last_10 .
+break_points_converted_rate_last_5_diff,serve_return,numeric,8.633,Difference feature defined as Player A minus Player B for break_points_converted_rate_last_5 .
+break_points_converted_rate_last_10_diff,serve_return,numeric,14.331,Difference feature defined as Player A minus Player B for break_points_converted_rate_last_10 .
+ace_matchup_A,matchup,numeric,14.331,Pre-match value for Player A of ace_matchup computed from prior data only.
+ace_matchup_B,matchup,numeric,14.331,Pre-match value for Player B of ace_matchup computed from prior data only.
+ace_matchup_diff,matchup,numeric,14.331,Difference feature defined as Player A minus Player B for ace_matchup .
+service_vs_return_matchup_A,matchup,numeric,14.331,Pre-match value for Player A of service_vs_return_matchup computed from prior data only.
+service_vs_return_matchup_B,matchup,numeric,14.331,Pre-match value for Player B of service_vs_return_matchup computed from prior data only.
+service_vs_return_matchup_diff,matchup,numeric,14.331,Difference feature defined as Player A minus Player B for service_vs_return_matchup .
+return_vs_service_matchup_A,matchup,numeric,14.331,Pre-match value for Player A of return_vs_service_matchup computed from prior data only.
+return_vs_service_matchup_B,matchup,numeric,14.331,Pre-match value for Player B of return_vs_service_matchup computed from prior data only.
+return_vs_service_matchup_diff,matchup,numeric,14.331,Difference feature defined as Player A minus Player B for return_vs_service_matchup .
+prior_h2h_matches,head_to_head,integer,0,Head-to-head feature computed only from meetings before the current match.
+prior_h2h_wins_A,head_to_head,integer,0,Pre-match value for Player A of prior_h2h_wins computed from prior data only.
+prior_h2h_win_rate_A,head_to_head,numeric,55.029,Pre-match value for Player A of prior_h2h_win_rate computed from prior data only.
+weather_temp_max_c,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
+weather_temp_min_c,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
+weather_temp_avg_c,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
+weather_wind_speed_mps,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
+weather_humidity_pct,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
+weather_precipitation_mm,weather,numeric,0,Weather variable preserved from the cleaned match-weather input file.
