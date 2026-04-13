@@ -39,19 +39,17 @@ That single command runs the full workflow in order:
 7. `ranking_feature_contruction.R`
 8. `rankings_merge.R`
 9. `Data_set_visualizations.R`
+10. `build_final_modeling_dataset.R`
 
 ## Important note
 
 - The NASA weather step (`nasa_weather_pull.R`) can take time.
-- Internet access is required for:
-  - geocoding tournament locations
-  - pulling NASA POWER weather data
 
 ## Final expected analysis-ready output
 
 After completion, the main final dataset is:
 
-- `data/cleaned/atp_matches_weather_ranking_data.csv`
+- `data/cleaned/atp_final_modeling_dataset.csv`
 
 ## Data documentation references
 
@@ -60,3 +58,4 @@ If needed while replicating:
 - Project overview: `README.md`
 - ATP source notes: `data/raw/tennis_ATP/README.md`
 - ATP match variable dictionary: `data/raw/tennis_ATP/matches_data_dictionary.txt`
+- Final Data set features dictionary: `data/cleaned/atp_final_modeling_data_dictionary.csv`
