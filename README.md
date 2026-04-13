@@ -10,7 +10,7 @@ This executes the full pipeline sequentially (including the NASA weather pull st
 ---
 
 ## Name
-- Cooper Brueck
+Cooper Brueck
 
 ## Objective
 This project aims to use machine learning models to predict professional tennis match outcomes using historical match results and player and match characteristics.
@@ -57,7 +57,7 @@ Ranking and player files include:
 
 
 **Timespan:**  
-Match data span from 1968 to the present however I will likely focus on a more recent subset where more advanced data is collected.
+Match data span from 1968 to the present however I will focus on a more recent subset 2010+ where more advanced data is collected.
 
 **Spatial coverage:**  
 International professional ATP tournaments.
@@ -107,3 +107,9 @@ Weather variables are then merged to each match by matching on:
 - match date  
 
 This approach assigns consistent weather conditions to each match without requiring station selection or imputation of missing observations. Because the weather data are provided as a complete daily time series for each location, all matches receive corresponding weather values.
+
+## Feature creation
+
+During the creation of features ensuring there is not data leakage required careful merging and creation of ranking features. Ranking merges required nearest prior date and other ranking features like elo rating (elo rating is the same rating ssystem used in chess we use a baseline of 1500 with a k value of 15) had to ensure that future matches where not being included in the predictive rankings features for that match. Essentially every match had to use only information from matches proir to it. Finally becuase the games are tournament based we had to attempt to order the games in the match data set sequentially by not only date but other variables like tournement round. 
+
+
