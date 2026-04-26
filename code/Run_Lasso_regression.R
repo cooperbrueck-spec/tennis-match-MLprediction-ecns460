@@ -374,4 +374,18 @@ baseline_accuracy <- train_lasso |>
 
 baseline_accuracy
 
+# -------------------------------------------------
+# Save Final LASSO Model
+# -------------------------------------------------
 
+# Create models folder if it does not already exist
+dir.create("models", showWarnings = FALSE)
+
+# Save final tuned LASSO model
+saveRDS(
+  final_lasso_fit,
+  file = "models/final_lasso_fit.rds"
+)
+
+# Confirmation
+list.files("models")
