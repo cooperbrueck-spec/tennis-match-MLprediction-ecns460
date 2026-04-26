@@ -21,7 +21,6 @@
 rm(list = ls())
 
 # Load the packages used in the build process.
-# Messages are suppressed so the script output stays focused on the dataset build itself.
 suppressPackageStartupMessages({
   library(data.table)
   library(readr)
@@ -739,8 +738,3 @@ feature_dictionary <- data.table(
 # Export the final modeling dataset and the companion variable dictionary.
 write_csv(as.data.frame(final_dataset), output_dataset_path)
 write_csv(as.data.frame(feature_dictionary), output_dictionary_path)
-
-# Print concise completion messages so the user knows where each output file was saved.
-message('Final modeling dataset created successfully.')
-message(paste('Saved dataset to', output_dataset_path))
-message(paste('Saved feature dictionary to', output_dictionary_path))
