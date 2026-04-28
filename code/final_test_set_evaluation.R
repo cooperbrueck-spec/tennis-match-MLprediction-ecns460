@@ -273,5 +273,5 @@ dir.create("results", showWarnings = FALSE)
 
 write_csv(
   final_test_results,
-  "results/final_test_model_comparison.csv"
+  "results/tables/final_test_model_comparison.csv"
 )
