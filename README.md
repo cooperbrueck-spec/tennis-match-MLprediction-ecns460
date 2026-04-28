@@ -1,115 +1,212 @@
-# tennis-match-MLprediction-ecns460
+# Tennis Match Outcome Prediction Using Machine Learning
 
-# ECNS 460 Term Project: Predicting Tennis Match Outcomes with Machine Learning
+## Project Overview
 
-## Reproduction in RStudio
-Use this as the single replication method: open the project in RStudio and run `source("code/run_all.R")`.
+This project develops machine learning models to predict professional ATP tennis match outcomes. The goal is to evaluate whether modern predictive methods can improve upon simple ranking-based predictions of winners.
 
-This executes the full pipeline sequentially (including the NASA weather pull step) using only project-relative paths.
-
----
-
-## Name
-Cooper Brueck
-
-## Objective
-This project aims to use machine learning models to predict professional tennis match outcomes using historical match results and player and match characteristics.
-
-## Motivation
-Sports provide a useful real-world setting for prediction because extensive data is available and many unknown match outcomes can be predicted. Tennis is especially well suited for predictive modeling because match outcomes depend on measurable characteristics such as player rankings, recent performance, and surface-specific ability.
-
-## Tentative Analysis Plan
-This project will follow the predictive analysis option. The main goal is to predict match winners as accurately as possible using historical tennis data. I plan to construct a dataset from historical match results and player rankings and use it to train models. A baseline logistic regression model will be compared with more advanced machine learning methods. Model performance will be evaluated using prediction accuracy.
-
-## Challenge
-The challenge component of this project is to learn and apply advanced machine learning methods beyond the models covered in class.
+Professional tennis provides an ideal prediction setting because outcomes are influenced by measurable pre-match factors such as player rankings, Elo ratings, recent form, surface specialization, head-to-head history, workload, and weather conditions. At the same time, match outcomes remain uncertain enough that upsets occur regularly.
 
 ---
 
-# Datasets
+## Data Sources
 
-## Dataset 1: Historical Professional Tennis Data
+The final modeling dataset was built by combining multiple sources:
 
-**Source:** Jeff Sackmann Tennis Data Repositories
+### 1. ATP Match Data
 
-Primary repository:  
-url  = https://github.com/JeffSackmann/tennis_atp  
+Historical ATP tour-level match data from Jeff Sackmann’s publicly available tennis datasets. These files include:
 
-**Contents:**  
-These repositories contain a comprehensive historical database of professional men's tennis matches and rankings. The project will use the full datasets which include match-level records for ATP tournaments as well as weekly player ranking data and additional player performance/strength metrics. I feel this data while perhaps not exactly from the raw source is still far from a research ready and prebuilt data set. It will require multiple merges, and extensive data cleaning. 
+- Match winners and losers  
+- Tournament name, level, surface, round, and date  
+- Match statistics (aces, serve percentages, etc.)  
+- Rankings and ranking points  
 
-Match data include variables such as:
+### 2. Tournament Location Data
 
-- tournament name and location  
-- match date  
-- surface type (clay, grass, hard)  
-- player names  
-- player rankings at the time of the match  
-- match scores  
-- match winner and loser  
+Tournament locations were manually standardized and geocoded in order to merge geographic and weather information.
 
-Ranking and player files include:
+### 3. NASA POWER Weather Data
 
-- weekly ranking date  
-- player ranking position  
-- ranking points
-- serve and swing metrics 
+Daily historical weather observations were collected using tournament coordinates and match dates, including:
 
+- Temperature  
+- Humidity  
+- Wind speed  
+- Precipitation  
 
-**Timespan:**  
-Match data span from 1968 to the present however I will focus on a more recent subset 2010+ where more advanced data is collected.
+### 4. Player Ranking Histories
 
-**Spatial coverage:**  
-International professional ATP tournaments.
-
-**Why it is useful:**  
-These datasets provide the core match outcomes that the machine learning models will attempt to predict. They also include key contextual variables such as surface type and player rankings that can be used to construct predictive features.
+Weekly ATP rankings and points were processed to create lagged ranking features available before each match.
 
 ---
 
-## Dataset 2: Historical Weather Data
+## Data Cleaning and Construction
 
-**Source:** NASA POWER (Prediction Of Worldwide Energy Resources)
+The project required extensive data preparation:
 
-NASA POWER API:  
-https://power.larc.nasa.gov/
-
-**Contents:**  
-NASA POWER provides global, gridded meteorological data based on latitude, longitude, and date. The dataset includes daily weather variables such as:
-
-- maximum temperature (T2M_MAX)  
-- minimum temperature (T2M_MIN)  
-- total precipitation (PRECTOTCORR)  
-- wind speed (WS2M)  
-- relative humidity (RH2M)  
-
-These variables are derived from a combination of satellite observations, ground measurements, and atmospheric models, and are provided in a consistent format across all geographic locations.
-
-**Timespan:**  
-Daily data are available globally from 1981 to the present.
-
-**Spatial coverage:**  
-Global coverage on a gridded system (approximately 0.5° resolution).
-
-**Why it is useful:**  
-Weather conditions may influence outdoor tennis matches through factors such as temperature, humidity, precipitation, and wind. These variables can affect player endurance, ball speed, and overall match conditions. An initial station-based approach using NOAA weather data was considered. However, station-based data require selecting nearby weather stations and handling missing observations, which introduces complexity and potential inconsistencies across locations. The NASA POWER dataset allows weather to be assigned directly using tournament latitude, longitude, and match date, ensuring complete coverage and consistent measurement across all tournaments. A limitation of this approach is that the data are spatially averaged over grid cells (approximately 50 km), which may smooth localized weather variation relative to station-based observations. However, the gain in completeness and consistency is well suited for a global match-level analysis.
+- Combined yearly ATP match files into a one dataset  
+- Restricted analysis to the modern tennis era  
+- Standardized tournament names and locations  
+- Geocoded tournament cities and countries  
+- Merged weather data by location and date  
+- Constructed lagged ranking and points variables  
+- Removed post-match information to prevent data leakage  
+- Created a final modeling dataset using only pre-match predictors  
 
 ---
 
-## Weather Data Merge Strategy
+## Feature Engineering
 
-Weather data will be merged to the match-level dataset using tournament location and match date. Each tournament is associated with a fixed latitude and longitude, and daily weather variables are retrieved for the corresponding date range using the NASA POWER API.
+A large set of pre-match predictors was engineered, including:
 
-Weather variables are then merged to each match by matching on:
+### Player Quality Measures
 
-- tournament name  
-- tournament year  
-- match date  
+- ATP ranking difference  
+- Ranking points difference  
+- Elo rating difference  
+- Surface-specific Elo difference  
 
-This approach assigns consistent weather conditions to each match without requiring station selection or imputation of missing observations. Because the weather data are provided as a complete daily time series for each location, all matches receive corresponding weather values.
+### Recent performance Measures
 
-## Feature creation
+- Wins in recent matches  
+- Rolling win percentages  
+- Ranking momentum and recent changes  
 
-During the creation of features ensuring there is not data leakage required careful merging and creation of ranking features. Ranking merges required nearest prior date and other ranking features like elo rating (elo rating is the same rating ssystem used in chess we use a baseline of 1500 with a k value of 15) had to ensure that future matches where not being included in the predictive rankings features for that match. Essentially every match had to use only information from matches proir to it. Finally becuase the games are tournament based we had to attempt to order the games in the match data set sequentially by not only date but other variables like tournement round. 
+### Matchup Measures
+
+- Head-to-head record  
+- Prior meetings count  
+- Serve versus return matchup variables  
+
+### Workload / Fatigue Measures
+
+- Matches played recently  
+- Surface experience  
+- Recent activity volume  
+
+### Tournament and Context Variables
+
+- Surface (hard, clay, grass)  
+- Tournament level  
+- Round  
+- Best-of format  
+
+### Weather Variables
+
+- Temperature  
+- Humidity  
+- Wind speed  
+- Precipitation  
+
+---
+
+## Prediction Setup
+
+To create a consistent binary classification problem:
+
+- **Player A** was defined as the **higher-ranked player entering the match**
+- **Player B** was the lower-ranked player
+
+Target variable:
+
+- `1` = Player A wins  
+- `0` = Player A loses  
+
+---
+
+## Training and Testing Design
+
+The dataset was randomly divided into:
+
+- **80% Training Data**
+- **20% Testing Data**
+
+The split used **stratification on the outcome variable**, preserving the proportion of Player A wins and losses in both samples.
+
+This ensured that the training and testing sets had similar class balance and allowed fair model evaluation.
+
+All model tuning was performed using **cross-validation on the training data only**. The test set was reserved for final out-of-sample evaluation.
+
+---
+
+## Models Estimated
+
+## 1. Naive Benchmark
+
+Always predict that Player A (the higher-ranked player) wins.
+
+This provides a simple baseline showing how predictive rankings already are.
+
+---
+
+## 2. LASSO Logistic Regression
+
+A penalized logistic regression model was estimated using LASSO regularization.
+
+---
+
+## 3. Gradient Boosted Trees (XGBoost)
+
+A nonlinear model was estimated using gradient boosted decision trees.
+
+Advantages:
+
+- Captures nonlinear relationships  
+- Learns interactions automatically  
+- Handles complex thresholds  
+- Often strong predictive performance  
 
 
+---
+
+## Evaluation Metrics
+
+Models were compared on the held-out test set using:
+
+- Accuracy  
+- ROC AUC  
+- Sensitivity  
+- Specificity  
+- Mean Log Loss  
+
+---
+
+## Final Test Set Results
+
+| Model | Accuracy | ROC AUC | Sensitivity | Specificity |
+|------|----------|---------|------------|------------|
+| Naive (Always Player A) | 0.652 | 0.500 | 1.000 | 0.000 |
+| LASSO | 0.650 | 0.612 | 0.795 | 0.379 |
+| XGBoost | 0.669 | 0.679 | 0.893 | 0.251 |
+
+---
+
+## Main Findings
+
+### Rankings Alone Are Strong
+
+Simply predicting the higher-ranked player won **65.2%** of test matches.
+
+### Machine Learning Added Modest Predictive Gains
+
+The XGBoost model improved accuracy to **66.9%** and produced the strongest overall performance.
+
+### Nonlinear Methods Outperformed Linear Methods
+
+The boosted tree model outperformed LASSO on:
+
+- Accuracy  
+- ROC AUC  
+- Probability calibration  
+
+### Upsets Remain Difficult to Predict
+
+LASSO was somewhat better at identifying upset outcomes, but no model predicted surprises consistently well.
+
+### Most Important Predictors Included
+
+- Elo rating advantage  
+- Surface Elo advantage  
+- Ranking measures  
+- Serve / return matchup indicators  
+- Weatehr was not predictive  
