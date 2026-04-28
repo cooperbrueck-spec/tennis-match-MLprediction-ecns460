@@ -30,7 +30,7 @@ set.seed(460)
 # -------------------------------------------------
 
 atp_final_modeling_dataset <- read_csv(
-  "C:/Users/coope/OneDrive - Montana State University/Desktop/ECNS 460/Tennis_match_ML/tennis-match-MLprediction-ecns460/data/cleaned/atp_final_modeling_dataset.csv"
+  "data/cleaned/atp_final_modeling_dataset.csv"
 )
 
 # -------------------------------------------------
