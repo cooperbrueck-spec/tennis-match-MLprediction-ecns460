@@ -171,16 +171,6 @@ Models were compared on the held-out test set using:
 
 ---
 
-## Final Test Set Results
-
-| Model | Accuracy | ROC AUC | Sensitivity | Specificity |
-|------|----------|---------|------------|------------|
-| Naive (Always Player A) | 0.652 | 0.500 | 1.000 | 0.000 |
-| LASSO | 0.650 | 0.612 | 0.795 | 0.379 |
-| XGBoost | 0.669 | 0.679 | 0.893 | 0.251 |
-
----
-
 ## Main Findings
 
 ### Rankings Alone Are Strong
@@ -197,7 +187,9 @@ The boosted tree model outperformed LASSO on:
 
 - Accuracy  
 - ROC AUC  
-- Probability calibration  
+- Probability calibration
+
+The main improvement of the XGboost model is a massive improvement in mean Log loss. 
 
 ### Upsets Remain Difficult to Predict
 
