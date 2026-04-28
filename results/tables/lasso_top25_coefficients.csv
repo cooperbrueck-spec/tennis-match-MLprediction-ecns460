@@ -1,0 +1,26 @@
+Predictor,Coefficient,Effect
+surface_elo_diff,0.2927394919597233,Increases Player A win odds
+elo_diff,0.21707012175222712,Increases Player A win odds
+prior_match_count_diff,-0.19553602364159867,Decreases Player A win odds
+service_vs_return_matchup_diff,0.16842899931993854,Increases Player A win odds
+rank_diff,0.1561604303258837,Increases Player A win odds
+lag_points_1wk_diff,0.15372723214843453,Increases Player A win odds
+wins_last_10_diff,-0.11634042856503664,Decreases Player A win odds
+na_ind_surface_win_rate_last_10_B,0.09233991558526762,Increases Player A win odds
+service_points_won_rate_last_5_diff,0.08845571429189744,Increases Player A win odds
+tourney_level_G,0.08792012307543014,Increases Player A win odds
+lag_rank_1wk_A,-0.07555019982498044,Decreases Player A win odds
+matches_played_last_14d_diff,0.07064273594280449,Increases Player A win odds
+prior_surface_matches_diff,0.06822260654098078,Increases Player A win odds
+na_ind_wins_last_5_B,0.04865866872679257,Increases Player A win odds
+return_points_won_rate_last_5_diff,0.04572955065329852,Increases Player A win odds
+na_ind_surface_win_rate_last_5_B,0.04449816816353949,Increases Player A win odds
+prior_h2h_wins_A,0.04376481202126639,Increases Player A win odds
+sd_rank_8wk_diff,0.0413804030803472,Increases Player A win odds
+ace_rate_last_5_B,-0.03692798605192609,Decreases Player A win odds
+sd_points_8wk_B,-0.03482627660802048,Decreases Player A win odds
+na_ind_surface_win_rate_last_5_A,-0.034321617663688055,Decreases Player A win odds
+na_ind_surface_win_rate_last_10_diff,-0.03374161267055813,Decreases Player A win odds
+ace_rate_allowed_last_10_diff,-0.03354006886572734,Decreases Player A win odds
+prior_surface_matches_B,-0.03295714450671603,Decreases Player A win odds
+service_points_won_rate_last_10_A,0.02741640001592941,Increases Player A win odds
