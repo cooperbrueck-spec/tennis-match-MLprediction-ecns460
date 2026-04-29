@@ -1,9 +1,11 @@
 library(tidyverse)
-library(ggplot2)
-library(scales)
 library(readr)
+library(here)
 
-atp_matches_with_nasa_weather <- read.csv("data/cleaned/atp_matches_with_nasa_weather.csv")
+atp_matches_with_nasa_weather <- read_csv(
+  here("data", "cleaned", "atp_matches_with_nasa_weather.csv"),
+  show_col_types = FALSE
+)
 
 # Inspect classes and correct classes
 
@@ -71,5 +73,5 @@ print(surface_check)
 
 write_csv(
   atp_matches_with_nasa_weather,
-  "data/cleaned/atp_matches_prefeature.csv"
+  here("data", "cleaned", "atp_matches_prefeature.csv")
 )

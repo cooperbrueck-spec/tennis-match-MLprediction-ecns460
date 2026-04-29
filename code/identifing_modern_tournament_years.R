@@ -6,10 +6,11 @@ library(readr)
 library(dplyr)
 library(purrr)
 library(stringr)
+library(here)
 
 # list ATP singles match files
 match_files <- list.files(
-  path = "data/raw/tennis_ATP",
+  path = here("data", "raw", "tennis_ATP"),
   pattern = "^atp_matches_[0-9]{4}\\.csv$",
   full.names = TRUE
 )
@@ -69,8 +70,8 @@ summary_2010 <- data_2010 |>
   arrange(tourney_name)
 
 # save comparison outputs for inspection
-write_csv(summary_2000, "data/raw/tennis_ATP/tournament_summary_2000plus.csv")
-write_csv(summary_2010, "data/raw/tennis_ATP/tournament_summary_2010plus.csv")
+write_csv(summary_2000, here("data", "raw", "tennis_ATP", "tournament_summary_2000plus.csv"))
+write_csv(summary_2010, here("data", "raw", "tennis_ATP", "tournament_summary_2010plus.csv"))
 
 # decision:
 # the project will use the 2010+ sample because it retains a large number of 

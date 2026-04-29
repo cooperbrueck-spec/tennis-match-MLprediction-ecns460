@@ -2,10 +2,11 @@ library(readr)
 library(dplyr)
 library(purrr)
 library(stringr)
+library(here)
 
 # identify all ATP singles match files
 match_files <- list.files(
-  path = "data/raw/tennis_ATP",
+  path = here("data", "raw", "tennis_ATP"),
   pattern = "^atp_matches_[0-9]{4}\\.csv$",
   full.names = TRUE
 )
@@ -74,5 +75,5 @@ cat("Duplicate rows removed:", nrow(duplicates_2010), "\n")
 # Save first cleaned tennis dataset
 write_csv(
   atp_matches_2010,
-  "data/cleaned/atp_matches_2010_clean.csv"
+  here("data", "cleaned", "atp_matches_2010_clean.csv")
 )

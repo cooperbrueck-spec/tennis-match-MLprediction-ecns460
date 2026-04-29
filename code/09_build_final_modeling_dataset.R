@@ -24,14 +24,14 @@ rm(list = ls())
 suppressPackageStartupMessages({
   library(data.table)
   library(readr)
+  library(here)
 })
 
 # Define the primary input and output paths.
 # Using file.path keeps these paths platform-safe and easier to reproduce across machines.
-input_path <- file.path('data', 'cleaned', 'atp_matches_weather_ranking_data.csv')
-output_dataset_path <- file.path('data', 'cleaned', 'atp_final_modeling_dataset.csv')
-output_dictionary_path <- file.path('data', 'cleaned', 'atp_final_modeling_data_dictionary.csv')
-output_summary_path <- file.path('results', 'tables', 'final_modeling_dataset_summary.md')
+input_path <- here("data", "cleaned", "atp_matches_weather_ranking_data.csv")
+output_dataset_path <- here("data", "cleaned", "atp_final_modeling_dataset.csv")
+output_dictionary_path <- here("data", "cleaned", "atp_final_modeling_data_dictionary.csv")
 
 # Divide safely so undefined ratios become missing values rather than Inf or NaN.
 # This is important for rate features such as win rates and serve rates when denominators are zero or unavailable.

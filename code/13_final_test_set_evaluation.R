@@ -1,14 +1,6 @@
 # ---------------------------------------------------------------
-# Final Test Set Evaluation
-#
-# Purpose:
-# Evaluate the naive benchmark, LASSO model, and XGBoost model
-# on the untouched test set
-# ---------------------------------------------------------------
-
-# ---------------------------------------------------------------
 # ECNS 460 Final Project
-# Script: 06_final_test_set_evaluation.R
+# Script: 13_final_test_set_evaluation.R
 #
 # Purpose:
 # Evaluate the naive benchmark, LASSO model, and XGBoost model
@@ -22,6 +14,7 @@ library(recipes)
 library(tidymodels)
 library(glmnet)
 library(xgboost)
+library(here)
 
 set.seed(460)
 
@@ -30,7 +23,7 @@ set.seed(460)
 # -------------------------------------------------
 
 atp_final_modeling_dataset <- read_csv(
-  "data/cleaned/atp_final_modeling_dataset.csv"
+  here("data", "cleaned", "atp_final_modeling_dataset.csv")
 )
 
 # -------------------------------------------------
@@ -150,8 +143,8 @@ dim(test_model_data)
 # 7. Load saved final models
 # -------------------------------------------------
 
-final_lasso_fit <- readRDS("models/final_lasso_fit.rds")
-final_xgb_fit   <- readRDS("models/final_xgb_fit.rds")
+final_lasso_fit <- readRDS(here("models", "final_lasso_fit.rds"))
+final_xgb_fit   <- readRDS(here("models", "final_xgb_fit.rds"))
 
 # -------------------------------------------------
 # 8. Naive benchmark: always predict Player A wins
@@ -269,9 +262,9 @@ xgb_test_predictions |>
 # 13. Save final test results
 # -------------------------------------------------
 
-dir.create("results", showWarnings = FALSE)
+dir.create(here("results", "tables"), recursive = TRUE, showWarnings = FALSE)
 
 write_csv(
   final_test_results,
-  "results/tables/final_test_model_comparison.csv"
+  here("results", "tables", "final_test_model_comparison.csv")
 )

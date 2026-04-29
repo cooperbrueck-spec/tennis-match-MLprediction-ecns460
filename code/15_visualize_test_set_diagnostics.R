@@ -5,6 +5,9 @@
 
 library(tidyverse)
 library(scales)
+library(here)
+
+dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
 
 # -------------------------------------------------
 # 1. Combine prediction sets
@@ -97,19 +100,12 @@ calibration_plot
 # -------------------------------------------------
 
 ggsave(
-  filename = "results/figures/probability_calibration_plot.pdf",
+  filename = here("results", "figures", "probability_calibration_plot.pdf"),
   plot = calibration_plot,
   width = 10,
   height = 6
 )
 
-
-# ---------------------------------------------------------------
-#  Create Accuracy by Ranking Difference figure
-# ---------------------------------------------------------------
-
-library(tidyverse)
-library(scales)
 
 # -------------------------------------------------
 # 1. Combine predictions with rank difference
@@ -222,7 +218,7 @@ rank_accuracy_plot
 # -------------------------------------------------
 
 ggsave(
-  filename = "results/figures/accuracy_by_rank_gap.pdf",
+  filename = here("results", "figures", "accuracy_by_rank_gap.pdf"),
   plot = rank_accuracy_plot,
   width = 9,
   height = 6
@@ -231,9 +227,6 @@ ggsave(
 # ---------------------------------------------------------------
 # Confusion Matrix Heatmaps figure
 # ---------------------------------------------------------------
-
-library(tidyverse)
-library(scales)
 
 # -------------------------------------------------
 # 1. Combine LASSO and XGBoost predictions
@@ -337,7 +330,7 @@ confusion_heatmap
 # -------------------------------------------------
 
 ggsave(
-  filename = "results/figures/confusion_matrix_heatmaps.pdf",
+  filename = here("results", "figures", "confusion_matrix_heatmaps.pdf"),
   plot = confusion_heatmap,
   width = 10,
   height = 6

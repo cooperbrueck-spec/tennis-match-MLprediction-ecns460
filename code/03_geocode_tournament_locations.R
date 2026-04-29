@@ -1,14 +1,14 @@
 library(readxl)
 library(dplyr)
-library(stringr)
 library(tidygeocoder)
 library(countrycode)
 library(readr)
+library(here)
 
 # load tournament location reference table from the Excel workbook
 # using the locations_data sheet only
 tournament_locations <- read_excel(
-  "data/reference_tables/Tournement_location_reference_table.xlsx",
+  here("data", "reference_tables", "Tournement_location_reference_table.xlsx"),
   sheet = "locations_data"
 )
 
@@ -47,5 +47,5 @@ missing_locations
 # All tournament locations have Geo codes now I save the dataset
 write_csv(
   tournament_locations_geo,
-  "data/reference_tables/tournament_locations_geocoded.csv"
+  here("data", "reference_tables", "tournament_locations_geocoded.csv")
 )

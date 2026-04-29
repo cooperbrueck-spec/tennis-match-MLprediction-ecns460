@@ -5,6 +5,7 @@
 library(tidyverse)
 library(broom)
 library(readr)
+library(here)
 
 # -------------------------------------------------
 # 1. Extract coefficients from saved model
@@ -51,24 +52,17 @@ lasso_top25
 # 4. Save tables
 # -------------------------------------------------
 
-dir.create("results/tables", recursive = TRUE, showWarnings = FALSE)
+dir.create(here("results", "tables"), recursive = TRUE, showWarnings = FALSE)
 
 write_csv(
   lasso_coef_table,
-  "results/tables/lasso_all_coefficients.csv"
+  here("results", "tables", "lasso_all_coefficients.csv")
 )
 
 write_csv(
   lasso_top25,
-  "results/tables/lasso_top25_coefficients.csv"
+  here("results", "tables", "lasso_top25_coefficients.csv")
 )
-
-# ---------------------------------------------------------------
-# LASSO Top 15 Coefficient Plot
-# ---------------------------------------------------------------
-
-library(tidyverse)
-library(forcats)
 
 # -------------------------------------------------
 # 1. Select top 15 by absolute coefficient size
@@ -154,8 +148,10 @@ lasso_coef_plot
 # 3. Save figure
 # -------------------------------------------------
 
+dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
+
 ggsave(
-  filename = "results/figures/lasso_top15_coefficients.pdf",
+  filename = here("results", "figures", "lasso_top15_coefficients.pdf"),
   plot = lasso_coef_plot,
   width = 10,
   height = 7

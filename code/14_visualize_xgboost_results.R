@@ -7,6 +7,7 @@ library(xgboost)
 library(tidymodels)
 library(forcats)
 library(readr)
+library(here)
 
 # -------------------------------------------------
 # 1. Extract XGBoost engine from fitted workflow
@@ -57,11 +58,11 @@ xgb_importance_clean <- xgb_importance |>
   )
 
 # Save full importance table
-dir.create("results/tables", recursive = TRUE, showWarnings = FALSE)
+dir.create(here("results", "tables"), recursive = TRUE, showWarnings = FALSE)
 
 write_csv(
   xgb_importance_clean,
-  "results/tables/xgboost_feature_importance.csv"
+  here("results", "tables", "xgboost_feature_importance.csv")
 )
 
 # -------------------------------------------------
@@ -93,10 +94,10 @@ xgb_importance_plot <- ggplot(
 
 xgb_importance_plot
 
-dir.create("results/figures", recursive = TRUE, showWarnings = FALSE)
+dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
 
 ggsave(
-  filename = "results/figures/xgboost_feature_importance.pdf",
+  filename = here("results", "figures", "xgboost_feature_importance.pdf"),
   plot = xgb_importance_plot,
   width = 10,
   height = 7

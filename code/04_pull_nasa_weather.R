@@ -3,19 +3,19 @@ library(dplyr)
 library(httr2)
 library(jsonlite)
 library(purrr)
-library(tidyr)
+library(here)
 
 # =========================
 # LOAD DATA
 # =========================
 
 atp_matches <- read_csv(
-  "data/cleaned/atp_matches_2010_clean.csv",
+  here("data", "cleaned", "atp_matches_2010_clean.csv"),
   show_col_types = FALSE
 )
 
 tournament_locations <- read_csv(
-  "data/reference_tables/tournament_locations_geocoded.csv",
+  here("data", "reference_tables", "tournament_locations_geocoded.csv"),
   show_col_types = FALSE
 )
 
@@ -210,10 +210,10 @@ cat("Missing RH2M:", sum(is.na(matches_with_weather$RH2M)), "\n")
 
 write_csv(
   weather_daily,
-  "data/cleaned/nasa_power_weather_daily.csv"
+  here("data", "cleaned", "nasa_power_weather_daily.csv")
 )
 
 write_csv(
   matches_with_weather,
-  "data/cleaned/atp_matches_with_nasa_weather.csv"
+  here("data", "cleaned", "atp_matches_with_nasa_weather.csv")
 )

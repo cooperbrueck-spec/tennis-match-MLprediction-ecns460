@@ -1,4 +1,3 @@
-# 04_visualization_stage.R
 library(tidyverse)
 library(here)
 library(ggplot2)
@@ -18,7 +17,7 @@ atp_data <- read_csv(here("data", "cleaned", "atp_matches_weather_ranking_data.c
 
 save_plot <- function(plot_obj, filename, width = 10, height = 6, dpi = 300) {
   ggsave(
-    filename = file.path(figures_dir, filename),
+    filename = here("results", "figures", filename),
     plot = plot_obj,
     width = width,
     height = height,
@@ -27,7 +26,7 @@ save_plot <- function(plot_obj, filename, width = 10, height = 6, dpi = 300) {
 }
 
 save_table <- function(table_obj, filename) {
-  write_csv(table_obj, file.path(tables_dir, filename))
+  write_csv(table_obj, here("results", "tables", filename))
 }
 
 # -------------------------------------------------------------------------
