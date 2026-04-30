@@ -1,24 +1,21 @@
+# load packages 
 library(tidyverse)
 library(rsample)
 library(readr)
 library(recipes)
 library(here)
-
+#use same seed as lasso
 set.seed(460)
 
-# -------------------------------------------------
-# 1. Load main modeling dataset
-# -------------------------------------------------
+#Script follows closely to lasso
 
+# Load main modeling dataset
 atp_final_modeling_dataset <- read_csv(
   here("data", "cleaned", "atp_final_modeling_dataset.csv")
 )
 
-# -------------------------------------------------
-# 2. Keep all variables that could be known before
-#    the match, while removing obvious leakage columns
-#    and pure identifiers.
-# -------------------------------------------------
+
+# Keep all variables that could be known before the match, while removing obvious leakage columns and pure identifiers.
 
 modeling_data <- atp_final_modeling_dataset |>
   select(
@@ -42,11 +39,9 @@ modeling_data <- atp_final_modeling_dataset |>
     tourney_level = as.factor(tourney_level)
   )
 
-# -------------------------------------------------
-# 3. Split into training and testing samples.
-#    We create the test set object, but do not process
-#    or use it yet.
-# -------------------------------------------------
+
+# Split into training and testing samples. We create the test set object, but do not process or use it yet.
+
 
 tennis_split <- initial_split(
   modeling_data,
@@ -57,9 +52,8 @@ tennis_split <- initial_split(
 train_data <- training(tennis_split)
 test_data  <- testing(tennis_split)
 
-# -------------------------------------------------
-# 4. Identify missingness using training data only
-# -------------------------------------------------
+
+# Identify missingness using training data only
 
 h2h_neutral_vars <- c("prior_h2h_win_rate_A")
 
@@ -89,14 +83,13 @@ tiny_missing_numeric_vars <- train_data |>
   ) |>
   pull(variable)
 
-# -------------------------------------------------
-# 5. Build preprocessing recipe for boosted trees
-# -------------------------------------------------
+
+# Build preprocessing recipe for boosted trees
+
 
 tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   
-  # Dates are kept in the processed data for reference,
-  # but they will be removed before model fitting.
+  # Dates are kept in the processed data for reference but they will be removed before model fitting.
   update_role(match_date, tourney_date, new_role = "date") |>
   
   # If prior H2H win rate is missing, that usually means no prior matchup.
@@ -112,7 +105,7 @@ tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   # Add missingness indicators for variables where missingness is meaningful.
   step_indicate_na(all_of(missing_indicator_vars)) |>
   
-  # Median-impute the same high-missingness variables.
+  # Median-impute the same high-missingness variables. Not stricly needed but deicded to do. 
   step_impute_median(all_of(missing_indicator_vars)) |>
   
   # Median-impute small numeric gaps without adding indicators.
@@ -127,10 +120,8 @@ tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   # Remove predictors with no variation.
   step_zv(all_predictors())
 
-# -------------------------------------------------
-# 6. Prep and apply recipe to training data only
-# -------------------------------------------------
 
+# Prep and apply recipe to training data only
 tennis_recipe_prepped <- prep(
   tennis_recipe,
   training = train_data,
@@ -142,20 +133,16 @@ train_processed <- bake(
   new_data = train_data
 )
 
-# -------------------------------------------------
-# 7. Remove date columns before model fitting
-# -------------------------------------------------
 
+# Remove date columns before model fitting
 train_xgb <- train_processed |>
   select(
     -match_date,
     -tourney_date
   )
 
-# -------------------------------------------------
-# 8. Training data checks
-# -------------------------------------------------
 
+# Training data checks
 sum(is.na(train_xgb))
 dim(train_xgb)
 
@@ -163,18 +150,14 @@ train_xgb |>
   count(outcome_A_win) |>
   mutate(prop = n / sum(n))
 
-# -------------------------------------------------
+# ---------------------------------------------------------
 # Run Gradient Boosted Tree Model
-# -------------------------------------------------
-
 library(tidymodels)
 library(xgboost)
 
 set.seed(460)
 
-# -------------------------------------------------
-# 1. Define boosted tree model
-# -------------------------------------------------
+# Define boosted tree model note there are a lot of hyperparameters to tune to run speed is slow.
 
 xgb_model <- boost_tree(
   trees = tune(),
@@ -188,27 +171,22 @@ xgb_model <- boost_tree(
   set_engine("xgboost") |>
   set_mode("classification")
 
-# -------------------------------------------------
-# 2. Cross-validation on training data only
-# -------------------------------------------------
 
+# 5-fold Cross-validation on training data only
 xgb_folds <- vfold_cv(
   train_xgb,
   v = 5,
   strata = outcome_A_win
 )
 
-# -------------------------------------------------
-# 3. Workflow
-# -------------------------------------------------
 
+# define Workflow
 xgb_workflow <- workflow() |>
   add_model(xgb_model) |>
   add_formula(outcome_A_win ~ .)
 
-# -------------------------------------------------
-# 4. Create tuning grid
-# -------------------------------------------------
+
+# Create tuning grid
 # This grid searches across different model complexities.
 # It is intentionally moderate so it does not take forever to run.
 
@@ -223,10 +201,8 @@ xgb_grid <- grid_latin_hypercube(
   size = 30
 )
 
-# -------------------------------------------------
-# 5. Tune model using cross-validation
-# -------------------------------------------------
 
+# Tune model using cross-validation
 xgb_tuned <- tune_grid(
   xgb_workflow,
   resamples = xgb_folds,
@@ -235,15 +211,14 @@ xgb_tuned <- tune_grid(
   control = control_grid(save_pred = TRUE)
 )
 
-# -------------------------------------------------
-# 6. View cross-validation results
-# -------------------------------------------------
 
+#View cross-validation results
 xgb_cv_results <- collect_metrics(xgb_tuned)
 
 xgb_cv_results
 
-# Best model based on ROC AUC
+# Best model based on ROC AUC. I used AUC instead of purely accuracy because AUC becuase we are in the training set
+# and dont nessicarly care if it is super accurate. rather I want model to translate to testing set. 
 best_xgb <- select_best(
   xgb_tuned,
   metric = "roc_auc"
@@ -257,10 +232,8 @@ xgb_best_metrics <- xgb_cv_results |>
 
 xgb_best_metrics
 
-# -------------------------------------------------
-# 7. Fit final boosted tree model on full training data
-# -------------------------------------------------
 
+# Fit final boosted tree model on full training data
 final_xgb_workflow <- finalize_workflow(
   xgb_workflow,
   best_xgb
@@ -271,12 +244,8 @@ final_xgb_fit <- fit(
   data = train_xgb
 )
 
-# -------------------------------------------------
-# 8. Training-set predictions
-# -------------------------------------------------
-# These are diagnostics only. Final evaluation should still
-# happen once on the untouched test set later.
 
+# Training-set predictions
 xgb_train_predictions <- predict(
   final_xgb_fit,
   new_data = train_xgb,
@@ -289,10 +258,8 @@ xgb_train_predictions <- predict(
     train_xgb |> select(outcome_A_win)
   )
 
-# -------------------------------------------------
-# 9. Training-set performance diagnostics
-# -------------------------------------------------
 
+# Training-set prediction performance
 xgb_train_metrics <- metric_set(
   roc_auc,
   accuracy,
@@ -318,10 +285,8 @@ xgb_train_predictions |>
     estimate = .pred_class
   )
 
-# -------------------------------------------------
-# 10. Plot tuning results
-# -------------------------------------------------
 
+# Plot tuning results
 xgb_cv_results |>
   filter(.metric %in% c("roc_auc", "accuracy", "mn_log_loss")) |>
   ggplot(aes(x = trees, y = mean)) +
@@ -334,9 +299,7 @@ xgb_cv_results |>
   ) +
   theme_minimal()
 
-# -------------------------------------------------
 # Save Final Boosted Tree Model
-# -------------------------------------------------
 
 # Create models folder if it does not already exist
 dir.create(here("models"), recursive = TRUE, showWarnings = FALSE)
