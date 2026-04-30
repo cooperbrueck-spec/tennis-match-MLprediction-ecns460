@@ -1,15 +1,15 @@
-# ---------------------------------------------------------------
-# Results Figures for Model Comparison
-# ---------------------------------------------------------------
+# overview:
+# we create two simple plots showing the evaluation metrics for lasso and xgboost models
 
+# load packages
 library(tidyverse)
 library(readr)
 library(scales)
 library(here)
 
-# -------------------------------------------------
-# 1. Load final model comparison table
-# -------------------------------------------------
+
+# Load final model comparison table
+
 
 final_test_results <- read_csv(
   here("results", "tables", "final_test_model_comparison.csv")
@@ -17,10 +17,8 @@ final_test_results <- read_csv(
 
 final_test_results
 
-# -------------------------------------------------
-# 2. Reshape results for plotting
-# -------------------------------------------------
 
+# make results useable for plotting
 model_results_long <- final_test_results |>
   pivot_longer(
     cols = c(accuracy, sensitivity, specificity, roc_auc, mn_log_loss),
@@ -46,10 +44,8 @@ model_results_long <- final_test_results |>
     )
   )
 
-# -------------------------------------------------
-# Horizontal Classification Metrics Plot
-# -------------------------------------------------
 
+# Horizontal Classification Metrics Plot
 classification_metrics_plot <- model_results_long |>
   filter(metric != "Mean Log Loss") |>
   ggplot(aes(
@@ -82,10 +78,8 @@ classification_metrics_plot <- model_results_long |>
 
 classification_metrics_plot
 
-# -------------------------------------------------
-# Horizontal Log Loss Plot
-# -------------------------------------------------
 
+# Horizontal Log Loss Plot
 log_loss_plot <- model_results_long |>
   filter(metric == "Mean Log Loss") |>
   ggplot(aes(
@@ -112,10 +106,8 @@ log_loss_plot <- model_results_long |>
 
 log_loss_plot
 
-# -------------------------------------------------
-# 5. Save figures
-# -------------------------------------------------
 
+#Save figures
 dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
 
 ggsave(
