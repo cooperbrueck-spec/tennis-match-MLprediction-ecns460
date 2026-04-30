@@ -2,6 +2,7 @@
 library(tidyverse)
 library(here)
 
+# read player and ranking data 
 players <- read_csv(here("data", "raw", "tennis_ATP", "atp_players.csv"))
 
 rankings_00s <- read_csv(here("data", "raw", "tennis_ATP", "atp_rankings_00s.csv"))
