@@ -1,4 +1,4 @@
-
+# load packages
 library(tidyverse)
 library(rsample)
 library(readr)
@@ -11,11 +11,10 @@ atp_final_modeling_dataset <- read_csv(
 
 set.seed(460)
 
-# -------------------------------------------------
-# 1. Keep all variables that could be known before
-#    the match, while removing obvious leakage columns
-#    and pure identifiers.
-# -------------------------------------------------
+
+# 1. Keep all variables that could be known before the match, while removing obvious leakage columns
+# and pure identifiers.
+
 
 modeling_data <- atp_final_modeling_dataset |>
   select(
@@ -39,11 +38,10 @@ modeling_data <- atp_final_modeling_dataset |>
     tourney_level = as.factor(tourney_level)
   )
 
-# -------------------------------------------------
-# 2. Split into training and testing samples.
-#    We create the test set object, but do not process
-#    or use it yet.
-# -------------------------------------------------
+
+# 2. Split into training and testing samples. We create the test set object, but do not process or use it yet.
+# Strata by out_come to ensure training and testing datasets are somewhat comparable
+
 
 tennis_split <- initial_split(
   modeling_data,
@@ -54,9 +52,8 @@ tennis_split <- initial_split(
 train_data <- training(tennis_split)
 test_data  <- testing(tennis_split)
 
-# -------------------------------------------------
+
 # 3. Identify missingness 
-# -------------------------------------------------
 
 h2h_neutral_vars <- c("prior_h2h_win_rate_A")
 
@@ -86,9 +83,7 @@ tiny_missing_numeric_vars <- train_data |>
   ) |>
   pull(variable)
 
-# -------------------------------------------------
-# 4. Build preprocessing recipe.
-# -------------------------------------------------
+# 4. Build preprocessing recipe use everything in modeling data set
 
 tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   
@@ -127,9 +122,7 @@ tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   # Normalize numeric predictors for LASSO.
   step_normalize(all_numeric_predictors())
 
-# -------------------------------------------------
 # 5. Prep and apply recipe to TRAINING DATA ONLY.
-# -------------------------------------------------
 
 tennis_recipe_prepped <- prep(
   tennis_recipe,
@@ -142,9 +135,9 @@ train_processed <- bake(
   new_data = train_data
 )
 
-# -------------------------------------------------
+
 # 6. Training data checks
-# -------------------------------------------------
+
 
 sum(is.na(train_processed))
 dim(train_processed)
@@ -153,9 +146,9 @@ train_processed |>
   count(outcome_A_win) |>
   mutate(prop = n / sum(n))
 
-# ------------------------------------------------
+# -------------------------------------
 # Run LASSO Regression
-# ------------------------------------------------
+
 
 library(tidymodels)
 library(glmnet)
@@ -163,9 +156,9 @@ library(glmnet)
 
 set.seed(460)
 
-# -------------------------------------------------
-# 0. Remove date variables before modeling
-# -------------------------------------------------
+
+# Remove date variables before modeling
+
 # These dates were kept through preprocessing but should not be used
 # as raw predictors in the LASSO model.
 
@@ -175,9 +168,8 @@ train_lasso <- train_processed |>
     -tourney_date
   )
 
-# -------------------------------------------------
+
 # 1. Define LASSO model
-# -------------------------------------------------
 # penalty = tune() lets cross-validation choose lambda.
 # mixture = 1 means pure LASSO.
 # logistic_reg() is used because outcome_A_win is binary.
@@ -188,9 +180,8 @@ lasso_model <- logistic_reg(
 ) |>
   set_engine("glmnet")
 
-# -------------------------------------------------
-# 2. 5-fold cross-validation on training data only
-# -------------------------------------------------
+
+# 2. 5-fold cross-validation on training data only still use strata
 
 cv_folds <- vfold_cv(
   train_lasso,
@@ -198,26 +189,23 @@ cv_folds <- vfold_cv(
   strata = outcome_A_win
 )
 
-# -------------------------------------------------
-# 3. Workflow
-# -------------------------------------------------
+# 3. define Workflow
 
 lasso_workflow <- workflow() |>
   add_model(lasso_model) |>
   add_formula(outcome_A_win ~ .)
 
-# -------------------------------------------------
+
 # 4. Grid of lambda values to test
-# -------------------------------------------------
 
 lambda_grid <- grid_regular(
   penalty(range = c(-4, 1)),   # 10^-4 to 10^1
   levels = 50
 )
 
-# -------------------------------------------------
+
 # 5. Tune model using cross-validation
-# -------------------------------------------------
+
 # ROC AUC: main performance measure
 # accuracy: easy-to-explain classification performance
 # mn_log_loss: rewards well-calibrated predicted probabilities
@@ -230,9 +218,8 @@ lasso_tuned <- tune_grid(
   control = control_grid(save_pred = TRUE)
 )
 
-# -------------------------------------------------
+
 # 6. View cross-validation results
-# -------------------------------------------------
 
 lasso_cv_results <- collect_metrics(lasso_tuned)
 
@@ -252,9 +239,8 @@ lasso_best_metrics <- lasso_cv_results |>
 
 lasso_best_metrics
 
-# -------------------------------------------------
-# 7. Optional: plot performance across lambda values
-# -------------------------------------------------
+
+# 7. plot performance across lambda values
 
 lasso_cv_results |>
   filter(.metric %in% c("roc_auc", "accuracy", "mn_log_loss")) |>
@@ -270,9 +256,8 @@ lasso_cv_results |>
   ) +
   theme_minimal()
 
-# -------------------------------------------------
+
 # 8. Fit final LASSO model on full training data
-# -------------------------------------------------
 
 final_lasso_workflow <- finalize_workflow(
   lasso_workflow,
@@ -284,9 +269,9 @@ final_lasso_fit <- fit(
   data = train_lasso
 )
 
-# -------------------------------------------------
+
 # 9. Training-set predictions
-# -------------------------------------------------
+
 # These are not final test-set results.
 # They help confirm that the model is fitting correctly.
 
@@ -302,11 +287,8 @@ lasso_train_predictions <- predict(
     train_lasso |> select(outcome_A_win)
   )
 
-# -------------------------------------------------
+
 # 10. Training-set performance
-# -------------------------------------------------
-# Use cross-validation metrics for model selection.
-# Use these training metrics only as a diagnostic.
 
 lasso_train_metrics <- metric_set(
   roc_auc,
@@ -326,16 +308,15 @@ lasso_train_performance <- lasso_train_predictions |>
 
 lasso_train_performance
 
-# Confusion matrix on training data
+#  create Confusion matrix on training data
 lasso_train_predictions |>
   conf_mat(
     truth = outcome_A_win,
     estimate = .pred_class
   )
 
-# -------------------------------------------------
-# 11. Extract non-zero coefficients
-# -------------------------------------------------
+
+# Extract non-zero coefficients
 
 lasso_coefs <- final_lasso_fit |>
   extract_fit_parsnip() |>
@@ -345,9 +326,9 @@ lasso_coefs <- final_lasso_fit |>
 
 lasso_coefs
 
-# -------------------------------------------------
-# 12. Number of predictors selected
-# -------------------------------------------------
+
+# Number of predictors selected
+
 
 n_selected_predictors <- lasso_coefs |>
   filter(term != "(Intercept)") |>
@@ -355,9 +336,9 @@ n_selected_predictors <- lasso_coefs |>
 
 n_selected_predictors
 
-# -------------------------------------------------
-# 13. Top predictors by absolute coefficient size
-# -------------------------------------------------
+
+# Top predictors by absolute coefficient size
+
 
 top_lasso_predictors <- lasso_coefs |>
   filter(term != "(Intercept)") |>
@@ -367,6 +348,7 @@ top_lasso_predictors <- lasso_coefs |>
 
 top_lasso_predictors
 
+# view baseline accuracy or how often player a wins
 train_lasso |>
   count(outcome_A_win) |>
   mutate(prop = n / sum(n))
@@ -375,9 +357,8 @@ baseline_accuracy <- train_lasso |>
 
 baseline_accuracy
 
-# -------------------------------------------------
+
 # Save Final LASSO Model
-# -------------------------------------------------
 
 # Create models folder if it does not already exist
 dir.create(here("models"), recursive = TRUE, showWarnings = FALSE)
