@@ -182,7 +182,6 @@ matches_with_weather <- matches_with_location |>
   )
 
 # quick checks 
-
 cat("\nFinished NASA POWER pull\n")
 cat("Tournament instances:", nrow(tournament_requests), "\n")
 cat("Weather rows:", nrow(weather_daily), "\n")
