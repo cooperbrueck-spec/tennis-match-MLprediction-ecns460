@@ -1,18 +1,15 @@
-# ---------------------------------------------------------------
-#  Create Probability Calibration Plot
-# Compare LASSO vs XGBoost on Test Set
-# ---------------------------------------------------------------
+# Overview: create 3 figures to better explore our results:
+# 1. a calibration plot to highlight the main improvement in our models which was lower mean log loss
+# 2. show accuracy in predictions at different rank differences as accuracy only improved slightly
+# but improvement was concentrated at close rank matches.
+# 3. Create a confusion matrix for each model
 
+# load packages
 library(tidyverse)
 library(scales)
 library(here)
 
-dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
-
-# -------------------------------------------------
-# 1. Combine prediction sets
-# -------------------------------------------------
-
+# Combine prediction sets
 calibration_data <- bind_rows(
   lasso_test_predictions |>
     transmute(
@@ -32,11 +29,8 @@ calibration_data <- bind_rows(
     actual_win = as.numeric(as.character(outcome_A_win))
   )
 
-# -------------------------------------------------
-# 2. Create probability bins
-# -------------------------------------------------
-# Deciles: 0-10%, 10-20%, etc.
 
+# Create decile probability bins use deciles so we can use means and remove some noise
 calibration_summary <- calibration_data |>
   mutate(
     prob_bin = cut(
@@ -54,10 +48,8 @@ calibration_summary <- calibration_data |>
   ) |>
   filter(!is.na(mean_pred))
 
-# -------------------------------------------------
-# 3. Calibration plot
-# -------------------------------------------------
 
+# Calibration plot show how well calibrated lasso and xgboost models are
 calibration_plot <- ggplot(
   calibration_summary,
   aes(x = mean_pred, y = actual_rate, color = model)
@@ -95,9 +87,9 @@ calibration_plot <- ggplot(
 
 calibration_plot
 
-# -------------------------------------------------
-# 4. Save figure
-# -------------------------------------------------
+
+# Save figure
+dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
 
 ggsave(
   filename = here("results", "figures", "probability_calibration_plot.pdf"),
@@ -107,9 +99,8 @@ ggsave(
 )
 
 
-# -------------------------------------------------
-# 1. Combine predictions with rank difference
-# -------------------------------------------------
+# Combine predictions with rank difference
+
 # Because Player A is defined as the higher-ranked player,
 # rank_diff measures the ranking gap between Player A and Player B.
 
@@ -147,10 +138,9 @@ rank_accuracy_data <- bind_rows(
     correct = .pred_class == outcome_A_win
   )
 
-# -------------------------------------------------
-# 2. Create ranking-difference bins
-# -------------------------------------------------
 
+# Create ranking-difference bins notice bins are not uniform becuase rank_diff is concentrated at lower values
+# still use means to elimintate noise and simplify plot.
 rank_accuracy_summary <- rank_accuracy_data |>
   mutate(
     rank_gap_bin = case_when(
@@ -178,10 +168,8 @@ rank_accuracy_summary <- rank_accuracy_data |>
 
 rank_accuracy_summary
 
-# -------------------------------------------------
-# 3. Plot accuracy by ranking gap
-# -------------------------------------------------
 
+# Plot accuracy by ranking gap
 rank_accuracy_plot <- ggplot(
   rank_accuracy_summary,
   aes(x = rank_gap_bin, y = accuracy, group = model, color = model)
@@ -213,10 +201,8 @@ rank_accuracy_plot <- ggplot(
 
 rank_accuracy_plot
 
-# -------------------------------------------------
-# 4. Save figure
-# -------------------------------------------------
 
+# Save figure
 ggsave(
   filename = here("results", "figures", "accuracy_by_rank_gap.pdf"),
   plot = rank_accuracy_plot,
@@ -224,14 +210,12 @@ ggsave(
   height = 6
 )
 
-# ---------------------------------------------------------------
+
 # Confusion Matrix Heatmaps figure
-# ---------------------------------------------------------------
 
-# -------------------------------------------------
-# 1. Combine LASSO and XGBoost predictions
-# -------------------------------------------------
 
+
+# Combine LASSO and XGBoost predictions
 confusion_data <- bind_rows(
   lasso_test_predictions |>
     transmute(
@@ -268,9 +252,9 @@ confusion_data <- bind_rows(
     )
   )
 
-# -------------------------------------------------
-# 2. Calculate row percentages
-# -------------------------------------------------
+
+# Calculate row percentages
+
 # Row percentages answer:
 # "Among matches with this actual outcome, how often did the model
 # predict each class?"
@@ -290,9 +274,8 @@ confusion_summary <- confusion_data |>
 
 confusion_summary
 
-# -------------------------------------------------
-# 3. Plot confusion matrix heatmaps
-# -------------------------------------------------
+
+# Plot confusion matrix heatmaps
 
 confusion_heatmap <- ggplot(
   confusion_summary,
@@ -325,10 +308,7 @@ confusion_heatmap <- ggplot(
 
 confusion_heatmap
 
-# -------------------------------------------------
-# 4. Save figure
-# -------------------------------------------------
-
+# Save figure
 ggsave(
   filename = here("results", "figures", "confusion_matrix_heatmaps.pdf"),
   plot = confusion_heatmap,
