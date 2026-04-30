@@ -1,3 +1,4 @@
+# Load Packages 
 library(tidyverse)
 library(here)
 
@@ -17,7 +18,7 @@ rankings <- bind_rows(
   rankings_current
 )
 
-# Prepare for merge 
+# Prepare for merge by standardizing dates and matching player_id
 
 rankings <- rankings |>
   rename(player_id = player)
@@ -42,17 +43,20 @@ sum(is.na(players$player_id))
 sum(is.na(players$dob))
 sum(is.na(players$height))
 
+# check and Remove exact duplicate ranking observations (common in ATP data)
+rankings |>
+  count(player_id, ranking_date) |>
+  filter(n > 1) # Notice during covid ATP tournaments paused and ranking data was messed up as a result
+
+# Check if they are true duplicates 
+rankings |>
+  filter(player_id == 104467, ranking_date == as.Date("2021-07-19"))
+
+# I will remove exact duplicate rankings this removes almost 700 duplicate rankings
+rankings <- rankings |>
+  distinct(player_id, ranking_date, .keep_all = TRUE)
+
 # Save cleaned data pre ,merge
 write_csv(rankings, here("data", "cleaned", "atp_rankings_all.csv"))
 write_csv(players, here("data", "cleaned", "atp_players_clean.csv"))
 
-rankings <- rankings |>
-  arrange(player_id, ranking_date)
-rankings |>
-  count(player_id, ranking_date) |>
-  filter(n > 1)
-
-rankings |>
-  group_by(player_id) |>
-  summarise(n_obs = n()) |>
-  arrange(desc(n_obs))
