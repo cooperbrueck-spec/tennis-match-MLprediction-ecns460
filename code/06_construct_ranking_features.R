@@ -26,28 +26,24 @@
 # most recent ranking observation prior to each match date. The Most important
 # thing is I avoid data leakage. We use lags becuase nearest ranking to match 
 # data must be nearest prior ranking to match date.
-# -------------------------------------------------------------------------
+# -------------------------------------------------------------------
 library(tidyverse)
 library(here)
 library(slider)
 
-# Load data ---------------------------------------------------------------
-
-atp_matches <- read_csv(here("data", "cleaned", "atp_matches_with_nasa_weather.csv"))
+# Load data
 rankings <- read_csv(here("data", "cleaned", "atp_rankings_all.csv"))
-players <- read_csv(here("data", "cleaned", "atp_players_clean.csv"))
 
-# Make sure dates are real dates -----------------------------------------
 
+# Make sure dates are real dates
 rankings <- rankings |>
   mutate(ranking_date = as.Date(ranking_date))
 
-# Sort rankings -----------------------------------------------------------
-
+# Sort rankings
 rankings <- rankings |>
   arrange(player_id, ranking_date)
 
-# Create ranking features -------------------------------------------------
+# Create ranking features
 # Important:
 # lower rank number = better rank
 # so a positive "improvement" means rank got better over time (lag_rank_4wk - rank)
@@ -106,11 +102,7 @@ ranking_features <- rankings |>
   ) |>
   ungroup()
 
-# Quick checks ------------------------------------------------------------
-
-glimpse(ranking_features)
-
-# Notice relatively low missing data. Likely from new players entering.
+# Notice relatively low missing data. Likely from new players entering and legitimately not having data
 ranking_features |>
   summarise(
     n_rows = n(),
@@ -131,7 +123,7 @@ ranking_features |>
   arrange(player_id, ranking_date) |>
   print(n = 20)
 
-# Save --------------------------------------------------------------------
+# Save
 
 write_csv(
   ranking_features,
