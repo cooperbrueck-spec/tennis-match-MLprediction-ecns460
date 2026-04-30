@@ -3,9 +3,8 @@ library(here)
 library(ggplot2)
 library(maps)
 
-# -------------------------------------------------------------------------
+
 # Paths and setup
-# -------------------------------------------------------------------------
 
 figures_dir <- here("results", "figures")
 tables_dir <- here("results", "tables")
@@ -13,8 +12,10 @@ tables_dir <- here("results", "tables")
 dir.create(figures_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(tables_dir, recursive = TRUE, showWarnings = FALSE)
 
+# load data
 atp_data <- read_csv(here("data", "cleaned", "atp_matches_weather_ranking_data.csv"))
 
+# Create function to save figures and tables in a uniform way
 save_plot <- function(plot_obj, filename, width = 10, height = 6, dpi = 300) {
   ggsave(
     filename = here("results", "figures", filename),
@@ -29,9 +30,8 @@ save_table <- function(table_obj, filename) {
   write_csv(table_obj, here("results", "tables", filename))
 }
 
-# -------------------------------------------------------------------------
-# Figure: Global tournament map
-# -------------------------------------------------------------------------
+# ------------------------------------------------
+# Figure 1: Global tournament map
 
 tourney_locations <- atp_data |>
   distinct(tourney_name, latitude, longitude)
@@ -64,8 +64,8 @@ fig_global_tournament_locations <- ggplot() +
 save_plot(fig_global_tournament_locations, "global_atp_tournament_locations.png")
 
 # -------------------------------------------------------------------------
-# Figure: Win probability by ranking difference
-# -------------------------------------------------------------------------
+# Figure2: Win probability by ranking difference shows predictive ability of rank
+
 
 ranking_plot_data <- atp_data |>
   transmute(
@@ -109,9 +109,9 @@ fig_win_probability_by_ranking_difference <- ggplot(
 save_plot(fig_win_probability_by_ranking_difference, "win_probability_by_ranking_difference.png")
 save_table(ranking_summary, "win_probability_by_ranking_difference_summary.csv")
 
-# -------------------------------------------------------------------------
-# Weather-upset analysis
-# -------------------------------------------------------------------------
+# ----------------------------------------------------------
+# Weather-upset analysis. does extreme weather effect chances of a upset?
+
 
 atp_weather <- atp_data |>
   mutate(upset = winner_rank > loser_rank)
@@ -197,10 +197,7 @@ save_table(heat_summary, "upset_probability_extreme_heat_summary.csv")
 save_table(wind_summary, "upset_probability_extreme_wind_summary.csv")
 save_table(precip_summary, "upset_probability_precipitation_summary.csv")
 
-# -------------------------------------------------------------------------
 # Figure: Upsets in close matches under extreme heat
-# -------------------------------------------------------------------------
-
 close_data <- atp_weather |>
   mutate(rank_diff = abs(winner_rank - loser_rank), close_match = rank_diff <= 20) |>
   filter(close_match) |>
@@ -230,17 +227,15 @@ fig_upset_close_matches_extreme_heat <- ggplot(heat_close_summary, aes(x = condi
 save_plot(fig_upset_close_matches_extreme_heat, "upset_probability_close_matches_extreme_heat.png")
 save_table(heat_close_summary, "upset_probability_close_matches_extreme_heat_summary.csv")
 
-# -------------------------------------------------------------------------
-# NEW FIGURE: Upset rate by rank difference for
-#             high-ace underdog vs ace-vulnerable favorite
-# -------------------------------------------------------------------------
+#Upset rate by rank difference for high-ace underdog vs ace-vulnerable favorite
 
-# -------------------------------------------------------------------------
+# exsplore serve stlyes and match ups as possible predictors of winners
+
 # Upset rate by rank difference for:
 # 1. All matches
 # 2. High-ace underdog vs ace-vulnerable favorite
 # 3. High-ace favorite vs ace-vulnerable underdog
-# -------------------------------------------------------------------------
+
 
 player_serve_return_profile <- bind_rows(
   atp_data |>
@@ -267,13 +262,13 @@ player_serve_return_profile <- bind_rows(
     n_player_matches = n(),
     .groups = "drop"
   )
-
+# define high ace servers as top quartile of acing
 high_ace_cutoff <- quantile(
   player_serve_return_profile$ace_rate_on_1st_serve,
   0.75,
   na.rm = TRUE
 )
-
+# define ave vunerable as top quartile of getting aced
 ace_vulnerable_cutoff <- quantile(
   player_serve_return_profile$aces_allowed_rate_on_opp_1st_serve,
   0.75,
@@ -389,11 +384,13 @@ fig_upset_rate_rankdiff_ace_matchup <- ggplot(
   theme_minimal()
 
 fig_upset_rate_rankdiff_ace_matchup
+
+# save plots and tables 
 save_plot(fig_upset_rate_rankdiff_ace_matchup, "upset_probability_rankdiff_high_ace_vs_ace_vulnerable.png")
 save_table(player_serve_return_profile, "player_serve_return_profiles.csv")
 save_table(upset_rate_comparison, "upset_probability_rankdiff_high_ace_vs_ace_vulnerable_summary.csv")
 
-# Print key figure objects in interactive sessions
+# quickly view different plots
 fig_global_tournament_locations
 fig_win_probability_by_ranking_difference
 fig_upset_extreme_heat
