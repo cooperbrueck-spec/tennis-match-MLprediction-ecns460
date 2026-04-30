@@ -27,8 +27,7 @@ library(here)
 input_path <- here("data", "cleaned", "atp_matches_weather_ranking_data.csv")
 output_dataset_path <- here("data", "cleaned", "atp_final_modeling_dataset.csv")
 
-#-------------------------------------------------
-# section 1. define some functions used later
+# define some functions used later
 
 # Divide safely so undefined ratios become missing values
 # This is important for our data set as players enter and often will have zeros for a variety of variables
@@ -144,8 +143,6 @@ add_recent_rate_features <- function(player_history, windows = c(5L, 10L)) {
   player_history
 }
 
-# -------------------------------------
-# section 2. create features and final data set
 
 # Read the cleaned match-level input file and convert it to a data.table
 matches <- read_csv(input_path, show_col_types = FALSE)
