@@ -1,7 +1,6 @@
-library(readr)
-library(dplyr)
-library(purrr)
-library(stringr)
+# Load Packages Use package here for all relative paths
+
+library(tidyverse)
 library(here)
 
 # identify all ATP singles match files
@@ -52,6 +51,7 @@ duplicates_2010 <- atp_matches_all |>
   filter(n() > 1) |>
   ungroup()
 
+# Show there are no duplicates
 duplicates_2010 |>
   select(year, tourney_name, match_num, winner_name, loser_name) |>
   head(10)
