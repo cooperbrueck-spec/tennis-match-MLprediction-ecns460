@@ -1,8 +1,8 @@
 library(readxl)
-library(dplyr)
+library(tidyverse)
 library(tidygeocoder)
 library(countrycode)
-library(readr)
+
 library(here)
 
 # load tournament location reference table from the Excel workbook
