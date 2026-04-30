@@ -1,11 +1,6 @@
-# ---------------------------------------------------------------
-# ECNS 460 Final Project
-# Script: 13_final_test_set_evaluation.R
-#
+
 # Purpose:
-# Evaluate the naive benchmark, LASSO model, and XGBoost model
-# on the untouched test set.
-# ---------------------------------------------------------------
+# Evaluate the naive benchmark, LASSO model, and XGBoost model on the untouched test set.
 
 library(tidyverse)
 library(readr)
@@ -16,20 +11,17 @@ library(glmnet)
 library(xgboost)
 library(here)
 
+# use same seed
 set.seed(460)
 
-# -------------------------------------------------
-# 1. Load main modeling dataset
-# -------------------------------------------------
 
+#Load main modeling dataset
 atp_final_modeling_dataset <- read_csv(
   here("data", "cleaned", "atp_final_modeling_dataset.csv")
 )
 
-# -------------------------------------------------
-# 2. Recreate same modeling data
-# -------------------------------------------------
 
+# Recreate same modeling data
 modeling_data <- atp_final_modeling_dataset |>
   select(
     -match_id,
@@ -52,10 +44,8 @@ modeling_data <- atp_final_modeling_dataset |>
     tourney_level = as.factor(tourney_level)
   )
 
-# -------------------------------------------------
-# 3. Recreate same train/test split
-# -------------------------------------------------
 
+#Recreate same train/test split
 tennis_split <- initial_split(
   modeling_data,
   prop = 0.80,
@@ -65,10 +55,8 @@ tennis_split <- initial_split(
 train_data <- training(tennis_split)
 test_data  <- testing(tennis_split)
 
-# -------------------------------------------------
-# 4. Identify missingness using training data only
-# -------------------------------------------------
 
+# Identify missingness using training data only
 missing_indicator_vars <- train_data |>
   summarise(across(everything(), ~ sum(is.na(.x)))) |>
   pivot_longer(
@@ -95,10 +83,8 @@ tiny_missing_numeric_vars <- train_data |>
   ) |>
   pull(variable)
 
-# -------------------------------------------------
-# 5. Recreate preprocessing recipe
-# -------------------------------------------------
 
+# Recreate preprocessing recipe
 tennis_recipe <- recipe(outcome_A_win ~ ., data = train_data) |>
   update_role(match_date, tourney_date, new_role = "date") |>
   step_mutate(
@@ -121,10 +107,8 @@ tennis_recipe_prepped <- prep(
   retain = TRUE
 )
 
-# -------------------------------------------------
-# 6. Bake test set
-# -------------------------------------------------
 
+# Bake test set
 test_processed <- bake(
   tennis_recipe_prepped,
   new_data = test_data
@@ -139,17 +123,13 @@ test_model_data <- test_processed |>
 sum(is.na(test_model_data))
 dim(test_model_data)
 
-# -------------------------------------------------
-# 7. Load saved final models
-# -------------------------------------------------
 
+# Load saved final models
 final_lasso_fit <- readRDS(here("models", "final_lasso_fit.rds"))
 final_xgb_fit   <- readRDS(here("models", "final_xgb_fit.rds"))
 
-# -------------------------------------------------
-# 8. Naive benchmark: always predict Player A wins
-# -------------------------------------------------
 
+# create a Naive benchmark: always predict Player A wins
 naive_predictions <- test_model_data |>
   transmute(
     outcome_A_win,
@@ -158,10 +138,8 @@ naive_predictions <- test_model_data |>
     .pred_1 = 1
   )
 
-# -------------------------------------------------
-# 9. LASSO test predictions
-# -------------------------------------------------
 
+# LASSO test predictions
 lasso_test_predictions <- predict(
   final_lasso_fit,
   new_data = test_model_data,
@@ -174,10 +152,8 @@ lasso_test_predictions <- predict(
     test_model_data |> select(outcome_A_win)
   )
 
-# -------------------------------------------------
-# 10. XGBoost test predictions
-# -------------------------------------------------
 
+# XGBoost test predictions
 xgb_test_predictions <- predict(
   final_xgb_fit,
   new_data = test_model_data,
@@ -190,10 +166,8 @@ xgb_test_predictions <- predict(
     test_model_data |> select(outcome_A_win)
   )
 
-# -------------------------------------------------
-# 11. Final test-set metrics
-# -------------------------------------------------
 
+# Final test-set metrics
 final_metrics <- metric_set(
   accuracy,
   roc_auc,
@@ -242,10 +216,8 @@ final_test_results <- bind_rows(
 
 final_test_results
 
-# -------------------------------------------------
-# 12. Confusion matrices
-# -------------------------------------------------
 
+# create Confusion matrices for lasso and xgboost
 lasso_test_predictions |>
   conf_mat(
     truth = outcome_A_win,
@@ -258,10 +230,8 @@ xgb_test_predictions |>
     estimate = .pred_class
   )
 
-# -------------------------------------------------
-# 13. Save final test results
-# -------------------------------------------------
 
+# Save final test results
 dir.create(here("results", "tables"), recursive = TRUE, showWarnings = FALSE)
 
 write_csv(
