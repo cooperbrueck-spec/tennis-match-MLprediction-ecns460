@@ -1,14 +1,11 @@
-library(readr)
-library(dplyr)
+# load packages 
+library(tidyverse)
 library(httr2)
 library(jsonlite)
-library(purrr)
 library(here)
 
-# =========================
-# LOAD DATA
-# =========================
 
+# load data
 atp_matches <- read_csv(
   here("data", "cleaned", "atp_matches_2010_clean.csv"),
   show_col_types = FALSE
@@ -19,10 +16,8 @@ tournament_locations <- read_csv(
   show_col_types = FALSE
 )
 
-# =========================
-# PREPARE MATCH DATA
-# =========================
 
+# prepare match data ensuring dates are dates may be repetitive 
 atp_matches <- atp_matches |>
   mutate(
     match_date = as.Date(as.character(tourney_date), format = "%Y%m%d"),
@@ -35,7 +30,7 @@ matches_with_location <- atp_matches |>
       select(tourney_name, latitude, longitude),
     by = "tourney_name"
   )
-
+# prepare for NASA weather pull. pull weather by start end date of each tournament location to limit API calls. 
 tournament_requests <- matches_with_location |>
   distinct(tourney_name, tourney_year, latitude, longitude, match_date) |>
   group_by(tourney_name, tourney_year, latitude, longitude) |>
@@ -46,9 +41,8 @@ tournament_requests <- matches_with_location |>
   ) |>
   filter(!is.na(latitude), !is.na(longitude))
 
-# =========================
-# NASA POWER HELPER
-# =========================
+
+# NASA POWER helper function pull max temp, min temp, precip, wind, and humidity 
 
 get_nasa_power_daily <- function(lat, lon, start_date, end_date) {
   
@@ -101,8 +95,8 @@ get_nasa_power_daily <- function(lat, lon, start_date, end_date) {
     RH2M = as.numeric(param_list$RH2M)
   ) |>
     mutate(
-      date = as.Date(date, format = "%Y%m%d"),
-      T2M_MAX = na_if(T2M_MAX, -999),
+      date = as.Date(date, format = "%Y%m%d"), 
+      T2M_MAX = na_if(T2M_MAX, -999), # ensure all weather data pulled is real weather data or n/a
       T2M_MIN = na_if(T2M_MIN, -999),
       PRECTOTCORR = na_if(PRECTOTCORR, -999),
       WS2M = na_if(WS2M, -999),
@@ -112,9 +106,8 @@ get_nasa_power_daily <- function(lat, lon, start_date, end_date) {
   out
 }
 
-# =========================
-# PULL WEATHER
-# =========================
+
+# pull weather. cat is for reproducibility as pull takes a while. it allows you to track progress. 
 
 weather_list <- vector("list", length = nrow(tournament_requests))
 
@@ -170,10 +163,8 @@ for (i in seq_len(nrow(tournament_requests))) {
 weather_daily <- bind_rows(weather_list) |>
   distinct()
 
-# =========================
-# MERGE TO MATCH DATA
-# =========================
 
+# Merge weather to matche date
 matches_with_weather <- matches_with_location |>
   left_join(
     weather_daily |>
@@ -190,9 +181,7 @@ matches_with_weather <- matches_with_location |>
     by = c("tourney_name", "tourney_year", "match_date")
   )
 
-# =========================
-# QUICK CHECKS
-# =========================
+# quick checks 
 
 cat("\nFinished NASA POWER pull\n")
 cat("Tournament instances:", nrow(tournament_requests), "\n")
@@ -204,10 +193,7 @@ cat("Missing PRECTOTCORR:", sum(is.na(matches_with_weather$PRECTOTCORR)), "\n")
 cat("Missing WS2M:", sum(is.na(matches_with_weather$WS2M)), "\n")
 cat("Missing RH2M:", sum(is.na(matches_with_weather$RH2M)), "\n")
 
-# =========================
-# SAVE DATA
-# =========================
-
+# save datasets
 write_csv(
   weather_daily,
   here("data", "cleaned", "nasa_power_weather_daily.csv")
