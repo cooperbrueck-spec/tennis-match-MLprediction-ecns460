@@ -96,7 +96,7 @@ get_nasa_power_daily <- function(lat, lon, start_date, end_date) {
   ) |>
     mutate(
       date = as.Date(date, format = "%Y%m%d"), 
-      T2M_MAX = na_if(T2M_MAX, -999), # ensure all weather data pulled is real weather data or n/a
+      T2M_MAX = na_if(T2M_MAX, -999), # ensure all weather data pulled is real weather data or n/a. Nasa use -999 for n/a.
       T2M_MIN = na_if(T2M_MIN, -999),
       PRECTOTCORR = na_if(PRECTOTCORR, -999),
       WS2M = na_if(WS2M, -999),
