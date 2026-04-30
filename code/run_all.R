@@ -3,7 +3,7 @@ rm(list = ls())
 library(here)
 
 # WARNING: The NASA POWER weather pull step can take a long time to complete
-# because it requests weather data for many tournament-year combinations.
+# because it requests weather data for many tournament-year combinations. The XG model seleection and tuning can also take a long time. 
 
 message("Starting full pipeline from RStudio project root...")
 
