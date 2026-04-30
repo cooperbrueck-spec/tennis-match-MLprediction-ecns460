@@ -1,6 +1,5 @@
-# build_final_modeling_dataset_commented.R
 # -----------------------------------------------------------------------------
-# Purpose:
+# Overview:
 # This script constructs the final match-level modeling dataset for the tennis
 # winner-prediction project.
 #
@@ -12,29 +11,27 @@
 #
 # Main outputs:
 # - data/cleaned/atp_final_modeling_dataset.csv
-# - data/cleaned/atp_final_modeling_data_dictionary.csv
-# - results/tables/final_modeling_dataset_summary.md
-# -----------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 
 # Clear the workspace at the start so this script does not depend on leftover objects from a prior R session.
 # This improves reproducibility because every run starts from the same clean environment.
 rm(list = ls())
 
-# Load the packages used in the build process.
-suppressPackageStartupMessages({
-  library(data.table)
-  library(readr)
-  library(here)
-})
+# Load the package
+library(data.table)
+library(readr)
+library(here)
+
 
 # Define the primary input and output paths.
-# Using file.path keeps these paths platform-safe and easier to reproduce across machines.
 input_path <- here("data", "cleaned", "atp_matches_weather_ranking_data.csv")
 output_dataset_path <- here("data", "cleaned", "atp_final_modeling_dataset.csv")
-output_dictionary_path <- here("data", "cleaned", "atp_final_modeling_data_dictionary.csv")
 
-# Divide safely so undefined ratios become missing values rather than Inf or NaN.
-# This is important for rate features such as win rates and serve rates when denominators are zero or unavailable.
+#-------------------------------------------------
+# section 1. define some functions used later
+
+# Divide safely so undefined ratios become missing values
+# This is important for our data set as players enter and often will have zeros for a variety of variables
 safe_divide <- function(numerator, denominator) {
   result <- numerator / denominator
   result[is.nan(result) | is.infinite(result)] <- NA_real_
@@ -66,6 +63,7 @@ count_prior_matches_in_days <- function(match_dates, days_back) {
 
 # Define the serve and return rate features that will be built from rolling numerator and denominator sums.
 # This table centralizes the formulas so the script can apply the same logic consistently across all rolling windows.
+# The rates are why safe divide is so important
 rate_window_specs <- data.table(
   feature = c(
     'ace_rate',
@@ -110,7 +108,7 @@ rate_window_specs <- data.table(
 
 # Create rolling recent-form and recent-performance features for each player.
 # All rolling features are based on shift(..., 1L), which excludes the current match from its own predictors.
-# That is the main safeguard against leakage in these rolling summaries.
+# That is the main safeguard against leakage in these rolling summaries.i.e we cannot include current match winner in win rates
 add_recent_rate_features <- function(player_history, windows = c(5L, 10L)) {
   player_history[, prior_match_count := seq_len(.N) - 1L, by = player_id]
 
@@ -146,7 +144,10 @@ add_recent_rate_features <- function(player_history, windows = c(5L, 10L)) {
   player_history
 }
 
-# Read the cleaned match-level input file and convert it to a data.table for fast grouped operations.
+# -------------------------------------
+# section 2. create features and final data set
+
+# Read the cleaned match-level input file and convert it to a data.table
 matches <- read_csv(input_path, show_col_types = FALSE)
 setDT(matches)
 
@@ -607,7 +608,7 @@ if (!identical(final_dataset$outcome_A_win, target_check)) {
   stop('Target coding check failed for outcome_A_win.')
 }
 
-# Check that all retained rate variables stay within logical probability bounds.
+# Check that all retained rate variables stay within logical probability bounds.i.e between 0 and 1
 rate_columns <- grep('rate|win_rate', names(final_dataset), value = TRUE)
 rate_columns <- rate_columns[!grepl('_diff$', rate_columns)]
 rate_columns <- rate_columns[!grepl('matchup', rate_columns)]
@@ -617,15 +618,15 @@ for (column_name in rate_columns) {
     stop(paste('Rate column outside [0, 1]:', column_name))
   }
 }
-
+# Check rank diff is postive as player A is defined as lower ranked player
 if (any(final_dataset$rank_diff <= 0, na.rm = TRUE)) {
   stop('rank_diff must be strictly positive for all retained matches.')
 }
-
+# Check elo was calculated
 if (any(is.na(final_dataset$elo_A) | is.na(final_dataset$elo_B))) {
   stop('Pre-match Elo features contain unexpected missing values.')
 }
 
 
-# Export the final modeling dataset and the companion variable dictionary.
+# Export the final modeling dataset
 write_csv(as.data.frame(final_dataset), output_dataset_path)
