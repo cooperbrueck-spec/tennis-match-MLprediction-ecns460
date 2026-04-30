@@ -1,7 +1,4 @@
-# ---------------------------------------------------------------
-# Improved XGBoost Feature Importance Table and Plot
-# ---------------------------------------------------------------
-
+# Load packages
 library(tidyverse)
 library(xgboost)
 library(tidymodels)
@@ -9,26 +6,21 @@ library(forcats)
 library(readr)
 library(here)
 
-# -------------------------------------------------
-# 1. Extract XGBoost engine from fitted workflow
-# -------------------------------------------------
+
+# Extract XGBoost engine from fitted workflow
 
 xgb_engine <- final_xgb_fit |>
   extract_fit_engine()
 
-# -------------------------------------------------
-# 2. Extract feature importance
-# -------------------------------------------------
 
+# Extract feature importance
 xgb_importance <- xgb.importance(
   model = xgb_engine
 ) |>
   as_tibble()
 
-# -------------------------------------------------
-# 3. Clean predictor names
-# -------------------------------------------------
 
+# Clean predictor names
 xgb_importance_clean <- xgb_importance |>
   mutate(
     readable_feature = recode(
@@ -65,10 +57,8 @@ write_csv(
   here("results", "tables", "xgboost_feature_importance.csv")
 )
 
-# -------------------------------------------------
-# 4. Plot top 20 features by gain
-# -------------------------------------------------
 
+# Plot top 20 features by gain
 xgb_importance_plot_data <- xgb_importance_clean |>
   slice_max(order_by = Gain, n = 20) |>
   arrange(Gain)
@@ -94,6 +84,7 @@ xgb_importance_plot <- ggplot(
 
 xgb_importance_plot
 
+# Save importance plot 
 dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
 
 ggsave(
