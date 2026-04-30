@@ -1,26 +1,20 @@
-# ---------------------------------------------------------------
-# LASSO Coefficient Table
-# ---------------------------------------------------------------
 
+# load packages 
 library(tidyverse)
 library(broom)
 library(readr)
 library(here)
 
-# -------------------------------------------------
-# 1. Extract coefficients from saved model
-# -------------------------------------------------
 
+# Extract coefficients from saved model
 lasso_coefs <- final_lasso_fit |>
   extract_fit_parsnip() |>
   tidy() |>
   filter(term != "(Intercept)") |>
   filter(estimate != 0)
 
-# -------------------------------------------------
-# 2. Clean and organize table
-# -------------------------------------------------
 
+# Clean and organize table
 lasso_coef_table <- lasso_coefs |>
   mutate(
     abs_coef = abs(estimate),
@@ -39,19 +33,17 @@ lasso_coef_table <- lasso_coefs |>
 # View full table
 lasso_coef_table
 
-# -------------------------------------------------
-# 3. Top 25 predictors
-# -------------------------------------------------
+
+# view Top 25 predictors
+
 
 lasso_top25 <- lasso_coef_table |>
   slice_head(n = 25)
 
 lasso_top25
 
-# -------------------------------------------------
-# 4. Save tables
-# -------------------------------------------------
 
+# Save tables
 dir.create(here("results", "tables"), recursive = TRUE, showWarnings = FALSE)
 
 write_csv(
@@ -64,10 +56,8 @@ write_csv(
   here("results", "tables", "lasso_top25_coefficients.csv")
 )
 
-# -------------------------------------------------
-# 1. Select top 15 by absolute coefficient size
-# -------------------------------------------------
 
+# Select top 15 by absolute coefficient size for plotting 
 lasso_top15_plot_data <- lasso_coef_table |>
   mutate(abs_coef = abs(Coefficient)) |>
   slice_max(
@@ -76,13 +66,9 @@ lasso_top15_plot_data <- lasso_coef_table |>
   ) |>
   arrange(Coefficient)
 
-# -------------------------------------------------
-# 2. Create horizontal coefficient chart
-# -------------------------------------------------
 
-# ---------------------------------------------------------------
-# Cleaner LASSO Coefficient Plot
-# ---------------------------------------------------------------
+# Create horizontal coefficient chart
+# change names to plot ready variables
 
 lasso_top15_plot_data <- lasso_coef_table |>
   mutate(
@@ -144,12 +130,11 @@ lasso_coef_plot <- ggplot(
 
 lasso_coef_plot
 
-# -------------------------------------------------
-# 3. Save figure
-# -------------------------------------------------
 
+# Save figure
+# Create folder if needed
 dir.create(here("results", "figures"), recursive = TRUE, showWarnings = FALSE)
-
+# save plot
 ggsave(
   filename = here("results", "figures", "lasso_top15_coefficients.pdf"),
   plot = lasso_coef_plot,
